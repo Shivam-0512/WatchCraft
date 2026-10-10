@@ -7709,3 +7709,36 @@ div[class*="netlify-feedback"],
   pointer-events: none !important;
   z-index: -99999 !important;
 }
+
+/* ══════════════════════════════════════════════════════════
+   3D TV SCREEN & YOUTUBE PLAYER CONTAINER
+══════════════════════════════════════════════════════════ */
+.wr3d-css3d-tv {
+  width: 1280px !important;
+  height: 720px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background: #000000 !important;
+}
+
+.wr3d-yt-player-container {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 1280px !important;
+  height: 720px !important;
+  overflow: hidden !important;
+  background: #000000 !important;
+}
+
+.wr3d-yt-player-container iframe,
+#wr3d-yt-player,
+#wr3d-yt-player iframe {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 1280px !important;
+  height: 720px !important;
+  border: 0 !important;
+  display: block !important;
+}

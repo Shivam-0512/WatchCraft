@@ -6,7 +6,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { playClick, playHover } from './sounds';
 import { getSocket, getPersistentUserId, setStoredUsername } from './socket';
 
-const BACKEND = import.meta.env.VITE_BACKEND_URL || 'http://localhost:10000';
+const BACKEND = (import.meta.env.VITE_BACKEND_URL || 'http://localhost:10000').replace(/\/+$/, '');
 
 // Genre config — real pixel-art images from /images/
 const GENRES = [

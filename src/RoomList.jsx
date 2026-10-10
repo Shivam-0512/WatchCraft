@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { playClick, playHover } from './sounds';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:10000';
+const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || 'http://localhost:10000').replace(/\/+$/, '');
 
 const GENRE_META = {
   anime:     { emoji: '🎌', color: '#ff6b9d' },

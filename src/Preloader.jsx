@@ -52,12 +52,6 @@ export default function Preloader({ onComplete }) {
     const total = CRITICAL_ASSETS.length;
     let completed = false;
 
-    // Preload audio sound effect immediately
-    try {
-      const audio = new Audio('/sound/btn_click.mp3');
-      audio.preload = 'auto';
-    } catch (e) {}
-
     // Non-blocking background prefetch for secondary items
     BACKGROUND_ASSETS.forEach((src) => {
       const bgImg = new Image();

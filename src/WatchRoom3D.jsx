@@ -257,14 +257,9 @@ export default function WatchRoom3D({
     const baseYaw = Math.atan2(CAM_TARGET.z - CAM_POS.z, CAM_TARGET.x - CAM_POS.x);
 
     // Load assets
-    let isLoaded = false;
     const mgr = new THREE.LoadingManager(
       () => {
-        isLoaded = true;
         setLoading(false);
-        if (cssRenderer?.domElement) {
-          cssRenderer.domElement.style.opacity = '1';
-        }
       },
       (_, l, t) => setProgress(Math.round((l / t) * 100)),
       (u) => { setLoadErr(`Failed: ${u}`); setLoading(false); },
@@ -376,7 +371,7 @@ export default function WatchRoom3D({
       height: '100%',
       pointerEvents: 'none',
       zIndex: '20',
-      opacity: isLoaded ? '1' : '0',
+      opacity: '1',
       transition: 'opacity 0.35s ease',
     });
     el.appendChild(cssRenderer.domElement);
@@ -477,7 +472,7 @@ export default function WatchRoom3D({
       camera.getWorldDirection(camDir);
       const toTv = tvCenter.clone().sub(camera.position).normalize();
       const dot = camDir.dot(toTv);
-      tvCssObj.visible = dot > 0.05;
+      tvCssObj.visible = dot > -0.2;
 
       // Render CSS3D scene synchronized with camera (stuck directly to 3D TV plane)
       cssCamera.fov = camera.fov;
@@ -629,8 +624,8 @@ export default function WatchRoom3D({
       try {
         ytPlayerRef.current = new YT.Player('wr3d-yt-player', {
           videoId,
-          width: '100%',
-          height: '100%',
+          width: '1280',
+          height: '720',
           playerVars: {
             autoplay: 1,
             controls: 0,
@@ -638,7 +633,6 @@ export default function WatchRoom3D({
             rel: 0,
             playsinline: 1,
             enablejsapi: 1,
-            origin: window.location.origin,
           },
           events: {
             onReady: (event) => {
@@ -1095,14 +1089,23 @@ export default function WatchRoom3D({
           <div
             id="wr3d-yt-player-container"
             className="wr3d-yt-player-container"
-            style={{ display: videoId ? 'block' : 'none' }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '1280px',
+              height: '720px',
+              display: videoId ? 'block' : 'none',
+              background: '#000000',
+              overflow: 'hidden',
+            }}
           >
-            <div id="wr3d-yt-player" />
+            <div id="wr3d-yt-player" style={{ width: '1280px', height: '720px' }} />
           </div>
 
           {/* Standby screen shown when no video is loaded */}
           {!videoId && (
-            <div className="wr3d-tv-standby">
+            <div className="wr3d-tv-standby" style={{ width: '1280px', height: '720px' }}>
               <div className="wr3d-tv-standby-text">WATCHCRAFT THEATER</div>
               <div className="wr3d-tv-standby-sub">Use the Add Video button to start watching</div>
             </div>
