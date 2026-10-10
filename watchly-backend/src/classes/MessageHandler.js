@@ -381,21 +381,24 @@ class MessageHandler {
     if (!target) return this._error(socket, 'Participant not found');
     if (target.isHost()) return this._error(socket, 'Cannot remove host');
 
-    room.removeParticipant(userId);
+    const targetSocketId = target.socketId;
+    const targetUserId = target.userId;
+
+    room.removeParticipant(targetSocketId);
     const participants = room.getParticipantsList();
 
     // Tell the kicked user
-    this.io.to(target.socketId).emit('kicked', { message: 'You were removed from the room by the host.' });
+    this.io.to(targetSocketId).emit('kicked', { message: 'You were removed from the room by the host.' });
 
     // Tell everyone else
-    room.broadcast('participant_removed', { userId: target.userId, socketId: target.socketId, participants });
+    room.broadcast('participant_removed', { userId: targetUserId, socketId: targetSocketId, participants });
 
     // Force socket to leave the Socket.IO room
-    const targetSocket = this.io.sockets.sockets.get(target.socketId);
+    const targetSocket = this.io.sockets.sockets.get(targetSocketId);
     if (targetSocket) targetSocket.leave(room.roomId);
 
     // Clean up registry
-    this.registry._socketToRoom.delete(target.socketId);
+    this.registry._socketToRoom.delete(targetSocketId);
 
     console.log(`[ROOM ${room.roomId}] ${target.username} removed by host`);
   }

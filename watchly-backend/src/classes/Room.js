@@ -134,11 +134,14 @@ class Room {
    * @param {string} socketId
    * @returns {{ wasHost: boolean, newHost: Participant|null }}
    */
-  removeParticipant(socketId) {
-    const leaving = this.participants.get(socketId);
+  removeParticipant(id) {
+    const leaving = this.getParticipant(id);
+    if (!leaving) return { wasHost: false, newHost: null };
+
+    const socketId = leaving.socketId;
     this.participants.delete(socketId);
 
-    const wasHost = leaving?.isHost() ?? false;
+    const wasHost = leaving.isHost() ?? false;
     let newHost = null;
 
     if (wasHost && this.participants.size > 0) {

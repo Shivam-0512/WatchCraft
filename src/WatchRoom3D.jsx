@@ -992,8 +992,25 @@ export default function WatchRoom3D({
         }
       }
     };
-    const onRemove = ({ participants: p }) => { if (p) setParticipants(p); };
-    const onKick   = ({ message }) => setKicked(message || 'Removed from room.');
+    const onRemove = ({ participants: p, userId, socketId }) => {
+      if (p) {
+        setParticipants(p.filter(x => (userId ? (x.userId !== userId && x.socketId !== userId) : true) && (socketId ? (x.socketId !== socketId && x.userId !== socketId) : true)));
+      } else if (userId || socketId) {
+        setParticipants(prev => prev.filter(x => (userId ? (x.userId !== userId && x.socketId !== userId) : true) && (socketId ? (x.socketId !== socketId && x.userId !== socketId) : true)));
+      }
+    };
+    const onKick   = ({ message }) => {
+      setKicked(message || 'Removed from room.');
+      try {
+        if (ytPlayerRef.current && typeof ytPlayerRef.current.stopVideo === 'function') {
+          ytPlayerRef.current.stopVideo();
+        }
+      } catch (e) {}
+      // Immediately redirect kicked user back to desktop
+      setTimeout(() => {
+        onExit?.();
+      }, 60);
+    };
     const onChat   = (msg) => setMessages(m => [...m.slice(-199), msg]);
     const onReact  = ({ username: u, emoji }) => {
       const id = Date.now() + Math.random();
@@ -1146,11 +1163,17 @@ export default function WatchRoom3D({
   };
 
   const assignRole = (userId, role) => { if (myRole === 'host') socket.emit('assign_role', { userId, role }); };
-  const kickUser   = (userId)       => { if (myRole === 'host') socket.emit('remove_participant', { userId }); };
+  const kickUser   = (userId)       => { 
+    if (myRole === 'host') {
+      playClick();
+      socket.emit('remove_participant', { userId }); 
+      setParticipants(prev => prev.filter(x => x.userId !== userId && x.socketId !== userId));
+    }
+  };
 
   if (kicked) {
     return (
-      <div className="wp-kicked-overlay">
+      <div className="wp-kicked-overlay" style={{ zIndex: 999999 }}>
         <div className="wp-kicked-box">
           <div className="wp-kicked-icon">
             <FontAwesomeIcon icon={faUserXmark} />
