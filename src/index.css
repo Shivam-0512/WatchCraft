@@ -7041,7 +7041,6 @@ body,
   pointer-events: none !important;
   -webkit-backface-visibility: visible !important;
   backface-visibility: visible !important;
-  transform: translateZ(0);
 }
 
 /* YouTube Iframe Container: 100% fills the inner screen with zero borders */
@@ -7059,7 +7058,6 @@ body,
   overflow: hidden;
   -webkit-backface-visibility: visible !important;
   backface-visibility: visible !important;
-  transform: translateZ(0);
 }
 
 .wr3d-yt-player-container iframe,
@@ -7074,7 +7072,6 @@ body,
   display: block;
   -webkit-backface-visibility: visible !important;
   backface-visibility: visible !important;
-  transform: translateZ(0);
 }
 
 /* 2D Projected TV Screen Overlay — Native 2D DOM on TV with full click/type support */

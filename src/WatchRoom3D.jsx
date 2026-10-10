@@ -421,11 +421,23 @@ export default function WatchRoom3D({
     ytContainer.style.overflow = 'hidden';
     ytContainer.style.display = 'none';
 
-    const ytSlot = document.createElement('div');
-    ytSlot.id = 'wr3d-yt-player';
-    ytSlot.style.width = '1280px';
-    ytSlot.style.height = '720px';
-    ytContainer.appendChild(ytSlot);
+    // Native YouTube player iframe with explicit production permissions (matching watchparty reference pattern)
+    const ytIframe = document.createElement('iframe');
+    ytIframe.id = 'wr3d-yt-player';
+    ytIframe.title = 'WatchCraft YouTube TV';
+    ytIframe.style.position = 'absolute';
+    ytIframe.style.top = '0';
+    ytIframe.style.left = '0';
+    ytIframe.style.width = '1280px';
+    ytIframe.style.height = '720px';
+    ytIframe.style.border = '0';
+    ytIframe.style.display = 'block';
+    ytIframe.style.background = '#000000';
+    ytIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+    ytIframe.setAttribute('allowfullscreen', 'true');
+    ytIframe.setAttribute('frameborder', '0');
+    ytIframe.src = `https://www.youtube.com/embed/?enablejsapi=1&autoplay=1&controls=0&rel=0&playsinline=1&origin=${encodeURIComponent(window.location.origin)}`;
+    ytContainer.appendChild(ytIframe);
 
     const standbyEl = document.createElement('div');
     standbyEl.id = 'wr3d-tv-standby';
@@ -675,38 +687,28 @@ export default function WatchRoom3D({
       if (!isMounted) return;
       if (!document.getElementById('wr3d-yt-player')) return;
 
-      // Initialize YouTube Iframe API Player with native controls & production origin
+      // Initialize YouTube Iframe API Player on the pre-existing iframe with production origin
       try {
         ytPlayerRef.current = new YT.Player('wr3d-yt-player', {
-          videoId,
-          width: '1280',
-          height: '720',
-          playerVars: {
-            autoplay: 1,
-            controls: 0,
-            modestbranding: 1,
-            rel: 0,
-            playsinline: 1,
-            enablejsapi: 1,
-            origin: window.location.origin,
-            widget_referrer: window.location.origin,
-          },
           events: {
             onReady: (event) => {
               const player = event.target;
               const dur = player.getDuration?.() || 0;
               if (dur > 0) setDuration(dur);
-              const targetTime = currentTimeRef.current || 0;
-              if (targetTime > 0) {
+              const targetVid = currentVideoIdRef.current;
+              if (targetVid) {
                 isSyncingRef.current = true;
-                player.seekTo(targetTime, true);
+                player.loadVideoById({
+                  videoId: targetVid,
+                  startSeconds: currentTimeRef.current || 0,
+                });
+                if (playStateRef.current === 'playing') {
+                  player.playVideo();
+                } else {
+                  player.pauseVideo();
+                }
+                setTimeout(() => { isSyncingRef.current = false; }, 600);
               }
-              if (playStateRef.current === 'playing') {
-                player.playVideo();
-              } else {
-                player.pauseVideo();
-              }
-              setTimeout(() => { isSyncingRef.current = false; }, 600);
             },
             onStateChange: (event) => {
               if (isSyncingRef.current) return;
