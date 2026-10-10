@@ -203,6 +203,10 @@ export default function WatchRoom3D({
   const isFullscreenRef   = useRef(false);
   const lastLocalTimeRef  = useRef(0);
 
+  // Player lifecycle guards
+  const playerInitRef      = useRef(false); // true once YT.Player creation has started
+  const loadedVideoIdRef   = useRef('');    // the video ID the iframe/player has actually been given
+
   useEffect(() => {
     currentTimeRef.current = currentTime;
   }, [currentTime]);
@@ -399,18 +403,20 @@ export default function WatchRoom3D({
     const cssCamera = new THREE.PerspectiveCamera(65, el.clientWidth / el.clientHeight, 0.05 * CSS_SCALE, 200 * CSS_SCALE);
     cssScene.add(cssCamera);
 
+    // The WebGL tvMesh is already pure black behind this layer, so these wrappers
+    // stay transparent and unclipped. Clipping/opaque backgrounds around a
+    // cross-origin video iframe inside a 3D-transformed tree can stop Chrome
+    // from compositing the video surface (audio plays, picture stays black).
     const tvEl = document.createElement('div');
     tvEl.className = 'wr3d-css3d-tv';
     tvEl.style.width = '1280px';
     tvEl.style.height = '720px';
-    tvEl.style.position = 'absolute';
-    tvEl.style.top = '0';
-    tvEl.style.left = '0';
-    tvEl.style.overflow = 'hidden';
-    tvEl.style.background = '#000000';
+    tvEl.style.position = 'relative';
+    tvEl.style.overflow = 'visible';
+    tvEl.style.background = 'transparent';
     tvEl.style.pointerEvents = 'none';
 
-    // Native YouTube player container (continuously mounted with 1280x720 layout to preserve hardware video surface)
+    // Native YouTube player container (completely unmanaged by React VDOM reconciliation to prevent iframe destruction)
     const ytContainer = document.createElement('div');
     ytContainer.id = 'wr3d-yt-player-container';
     ytContainer.className = 'wr3d-yt-player-container';
@@ -419,11 +425,13 @@ export default function WatchRoom3D({
     ytContainer.style.left = '0';
     ytContainer.style.width = '1280px';
     ytContainer.style.height = '720px';
-    ytContainer.style.background = '#000000';
-    ytContainer.style.overflow = 'hidden';
-    ytContainer.style.zIndex = '1';
+    ytContainer.style.overflow = 'visible';
+    ytContainer.style.background = 'transparent';
+    ytContainer.style.display = 'none';
 
-    // Native YouTube player iframe with explicit production permissions and wmode=opaque (matching watchparty reference pattern)
+    // Native YouTube player iframe.
+    // NOTE: no src here. The src (with the real video ID) is set right before
+    // YT.Player attaches, so the iframe never loads an ID-less "embed/?" page.
     const ytIframe = document.createElement('iframe');
     ytIframe.id = 'wr3d-yt-player';
     ytIframe.title = 'WatchCraft YouTube TV';
@@ -434,11 +442,9 @@ export default function WatchRoom3D({
     ytIframe.style.height = '720px';
     ytIframe.style.border = '0';
     ytIframe.style.display = 'block';
-    ytIframe.style.background = '#000000';
+    ytIframe.referrerPolicy = 'strict-origin-when-cross-origin';
     ytIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
     ytIframe.setAttribute('allowfullscreen', 'true');
-    ytIframe.setAttribute('frameborder', '0');
-    ytIframe.src = `https://www.youtube.com/embed/?enablejsapi=1&autoplay=1&controls=0&rel=0&playsinline=1&wmode=opaque&origin=${encodeURIComponent(window.location.origin)}&widget_referrer=${encodeURIComponent(window.location.origin)}`;
     ytContainer.appendChild(ytIframe);
 
     const standbyEl = document.createElement('div');
@@ -462,7 +468,6 @@ export default function WatchRoom3D({
     cssScene.add(tvCssObj);
 
     setTvReady(true);
-
 
     // 4. PC & Mac screens with looping video
     const pcVid = document.createElement('video');
@@ -500,6 +505,10 @@ export default function WatchRoom3D({
     // Center coordinates for camera-facing angle check
     const tvCenter = new THREE.Vector3(4.208, 2.6654, 1.8214);
 
+    // Reusable vectors (avoid allocating every frame)
+    const camDir = new THREE.Vector3();
+    const toTv   = new THREE.Vector3();
+
     // Animate
     let live = true;
     const tick = () => {
@@ -525,9 +534,8 @@ export default function WatchRoom3D({
       renderer.render(scene, camera);
 
       // Camera-facing visibility check (hide CSS3D element when looking completely away)
-      const camDir = new THREE.Vector3();
       camera.getWorldDirection(camDir);
-      const toTv = tvCenter.clone().sub(camera.position).normalize();
+      toTv.copy(tvCenter).sub(camera.position).normalize();
       const dot = camDir.dot(toTv);
       tvCssObj.visible = dot > -0.2;
 
@@ -636,8 +644,10 @@ export default function WatchRoom3D({
       if (el.contains(cssRenderer.domElement)) el.removeChild(cssRenderer.domElement);
       if (ytPlayerRef.current && typeof ytPlayerRef.current.destroy === 'function') {
         try { ytPlayerRef.current.destroy(); } catch (e) {}
-        ytPlayerRef.current = null;
       }
+      ytPlayerRef.current = null;
+      playerInitRef.current = false;
+      loadedVideoIdRef.current = '';
       setTvReady(false);
     };
   }, []);
@@ -654,27 +664,21 @@ export default function WatchRoom3D({
     const standbyEl = document.getElementById('wr3d-tv-standby');
 
     if (!videoId) {
-      if (ytContainer) ytContainer.style.zIndex = '1';
-      if (standbyEl) {
-        standbyEl.style.display = 'flex';
-        standbyEl.style.zIndex = '10';
-      }
+      if (ytContainer) ytContainer.style.display = 'none';
+      if (standbyEl) standbyEl.style.display = 'flex';
       if (ytPlayerRef.current && typeof ytPlayerRef.current.stopVideo === 'function') {
         try { ytPlayerRef.current.stopVideo(); } catch (e) {}
       }
       return;
     }
 
-    if (ytContainer) ytContainer.style.zIndex = '10';
-    if (standbyEl) {
-      standbyEl.style.display = 'none';
-      standbyEl.style.zIndex = '1';
-    }
+    if (ytContainer) ytContainer.style.display = 'block';
+    if (standbyEl) standbyEl.style.display = 'none';
 
-    // If player already exists, load the new video without re-creating iframe or resetting player
+    // Player is ready: just swap the video if it changed
     if (ytPlayerRef.current && typeof ytPlayerRef.current.loadVideoById === 'function') {
-      if (currentVideoIdRef.current !== videoId) {
-        currentVideoIdRef.current = videoId;
+      if (loadedVideoIdRef.current !== videoId) {
+        loadedVideoIdRef.current = videoId;
         try {
           isSyncingRef.current = true;
           ytPlayerRef.current.loadVideoById({
@@ -689,34 +693,58 @@ export default function WatchRoom3D({
       return;
     }
 
-    currentVideoIdRef.current = videoId;
-    let isMounted = true;
-    loadYTApi().then(YT => {
-      if (!isMounted) return;
-      if (!document.getElementById('wr3d-yt-player')) return;
+    // Player is still being created: onReady will pick up the latest video ID
+    if (playerInitRef.current) {
+      return;
+    }
 
-      // Initialize YouTube Iframe API Player on the pre-existing iframe with production origin
+    // First-time creation
+    loadYTApi().then((YT) => {
+      const frame = document.getElementById('wr3d-yt-player');
+      if (!frame || playerInitRef.current) return;
+      playerInitRef.current = true;
+
+      const initialId = currentVideoIdRef.current || videoId;
+      loadedVideoIdRef.current = initialId;
+
+      const params = new URLSearchParams({
+        enablejsapi: '1',
+        autoplay: '1',
+        controls: '0',
+        rel: '0',
+        playsinline: '1',
+        modestbranding: '1',
+        origin: window.location.origin,
+      });
+      // Set src RIGHT before attaching the API, with the real video ID in it
+      frame.src = `https://www.youtube.com/embed/${initialId}?${params.toString()}`;
+
       try {
-        ytPlayerRef.current = new YT.Player('wr3d-yt-player', {
+        ytPlayerRef.current = new YT.Player(frame, {
           events: {
             onReady: (event) => {
               const player = event.target;
-              const dur = player.getDuration?.() || 0;
-              if (dur > 0) setDuration(dur);
-              const targetVid = currentVideoIdRef.current;
-              if (targetVid) {
-                isSyncingRef.current = true;
+              isSyncingRef.current = true;
+
+              // If the video changed while the player was loading, switch to it now
+              if (currentVideoIdRef.current && currentVideoIdRef.current !== loadedVideoIdRef.current) {
+                loadedVideoIdRef.current = currentVideoIdRef.current;
                 player.loadVideoById({
-                  videoId: targetVid,
+                  videoId: currentVideoIdRef.current,
                   startSeconds: currentTimeRef.current || 0,
                 });
-                if (playStateRef.current === 'playing') {
-                  player.playVideo();
-                } else {
-                  player.pauseVideo();
-                }
-                setTimeout(() => { isSyncingRef.current = false; }, 600);
+              } else {
+                const t = currentTimeRef.current || 0;
+                if (t > 0) player.seekTo(t, true);
               }
+
+              if (playStateRef.current === 'playing') player.playVideo();
+              else player.pauseVideo();
+
+              const dur = player.getDuration?.() || 0;
+              if (dur > 0) setDuration(dur);
+              setVideoLoading(false);
+              setTimeout(() => { isSyncingRef.current = false; }, 600);
             },
             onStateChange: (event) => {
               if (isSyncingRef.current) return;
@@ -763,6 +791,7 @@ export default function WatchRoom3D({
                 100: 'Video not found or removed.',
                 101: 'Video cannot be embedded in external sites.',
                 150: 'Video cannot be embedded in external sites.',
+                153: 'Player configuration error (referrer / embed settings).',
               };
               setVideoError(errCodes[event.data] || 'Error loading video.');
               setVideoLoading(false);
@@ -771,12 +800,9 @@ export default function WatchRoom3D({
         });
       } catch (err) {
         console.error('Failed to create YT.Player:', err);
+        playerInitRef.current = false;
       }
     });
-
-    return () => {
-      isMounted = false;
-    };
   }, [videoId, tvReady]);
 
   // ── Non-Destructive Play/Pause Synchronization (Freezes and resumes exactly at timestamp) ──
@@ -1149,7 +1175,6 @@ export default function WatchRoom3D({
 
       {/* 3-D canvas mount */}
       <div ref={mountRef} className="wr3d-canvas" />
-
 
       {/* Loading overlay */}
       {loading && (

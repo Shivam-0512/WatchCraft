@@ -7026,9 +7026,9 @@ body,
 .wr3d-css3d-tv {
   width: 1280px;
   height: 720px;
-  background: #000000;
+  background: transparent !important;
   position: relative;
-  overflow: hidden;
+  overflow: visible !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
@@ -7049,13 +7049,13 @@ body,
   height: 100%;
   position: absolute;
   inset: 0;
-  background: #000000;
+  background: transparent !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: visible !important;
   -webkit-backface-visibility: visible !important;
   backface-visibility: visible !important;
 }
@@ -7070,6 +7070,7 @@ body,
   margin: 0 !important;
   padding: 0 !important;
   display: block;
+  background: transparent !important;
   -webkit-backface-visibility: visible !important;
   backface-visibility: visible !important;
 }
