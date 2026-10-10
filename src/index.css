@@ -6143,7 +6143,6 @@ body,
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   overflow: hidden;
   z-index: 400;
-  perspective: 1200px;
 }
 
 /* Canvas fills everything */
@@ -7040,6 +7039,9 @@ body,
   margin: 0;
   padding: 0;
   pointer-events: none !important;
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  transform: translateZ(0);
 }
 
 /* YouTube Iframe Container: 100% fills the inner screen with zero borders */
@@ -7055,6 +7057,9 @@ body,
   margin: 0;
   padding: 0;
   overflow: hidden;
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  transform: translateZ(0);
 }
 
 .wr3d-yt-player-container iframe,
@@ -7067,6 +7072,9 @@ body,
   margin: 0 !important;
   padding: 0 !important;
   display: block;
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  transform: translateZ(0);
 }
 
 /* 2D Projected TV Screen Overlay — Native 2D DOM on TV with full click/type support */

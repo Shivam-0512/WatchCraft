@@ -8,7 +8,6 @@
 // Reset: "🎯 Reset View" button returns to initial TV-facing direction.
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { createPortal } from 'react-dom';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
@@ -73,20 +72,32 @@ function extractYouTubeId(urlOrId) {
 function loadYTApi() {
   return new Promise((resolve) => {
     if (window.YT && window.YT.Player) return resolve(window.YT);
-    if (window._ytApiLoading) {
-      const check = setInterval(() => {
-        if (window.YT && window.YT.Player) {
-          clearInterval(check);
+    let resolved = false;
+    const check = setInterval(() => {
+      if (window.YT && window.YT.Player) {
+        clearInterval(check);
+        if (!resolved) {
+          resolved = true;
           resolve(window.YT);
         }
-      }, 100);
-      return;
+      }
+    }, 50);
+
+    if (!window._ytApiLoading) {
+      window._ytApiLoading = true;
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(tag);
+      const prevCb = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (typeof prevCb === 'function') prevCb();
+        clearInterval(check);
+        if (!resolved) {
+          resolved = true;
+          resolve(window.YT);
+        }
+      };
     }
-    window._ytApiLoading = true;
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(tag);
-    window.onYouTubeIframeAPIReady = () => resolve(window.YT);
   });
 }
 
@@ -154,7 +165,7 @@ export default function WatchRoom3D({
   // DOM refs
   const mountRef     = useRef(null);
   const containerRef = useRef(null);
-  const [tvMountNode, setTvMountNode] = useState(null);
+  const [tvReady, setTvReady] = useState(false);
   const rafRef       = useRef(null);
 
   // Camera look state (mutable ref for perf — no re-render needed)
@@ -397,6 +408,38 @@ export default function WatchRoom3D({
     tvEl.style.background = '#000000';
     tvEl.style.pointerEvents = 'none';
 
+    // Native YouTube player container (completely unmanaged by React VDOM reconciliation to prevent iframe destruction)
+    const ytContainer = document.createElement('div');
+    ytContainer.id = 'wr3d-yt-player-container';
+    ytContainer.className = 'wr3d-yt-player-container';
+    ytContainer.style.position = 'absolute';
+    ytContainer.style.top = '0';
+    ytContainer.style.left = '0';
+    ytContainer.style.width = '1280px';
+    ytContainer.style.height = '720px';
+    ytContainer.style.background = '#000000';
+    ytContainer.style.overflow = 'hidden';
+    ytContainer.style.display = 'none';
+
+    const ytSlot = document.createElement('div');
+    ytSlot.id = 'wr3d-yt-player';
+    ytSlot.style.width = '1280px';
+    ytSlot.style.height = '720px';
+    ytContainer.appendChild(ytSlot);
+
+    const standbyEl = document.createElement('div');
+    standbyEl.id = 'wr3d-tv-standby';
+    standbyEl.className = 'wr3d-tv-standby';
+    standbyEl.style.width = '1280px';
+    standbyEl.style.height = '720px';
+    standbyEl.innerHTML = `
+      <div class="wr3d-tv-standby-text">WATCHCRAFT THEATER</div>
+      <div class="wr3d-tv-standby-sub">Use the Add Video button to start watching</div>
+    `;
+
+    tvEl.appendChild(ytContainer);
+    tvEl.appendChild(standbyEl);
+
     const tvCssObj = new CSS3DObject(tvEl);
     // Anchor precisely to TV's inner screen plane scaled into CSS3D space
     tvCssObj.position.set(4.208 * CSS_SCALE, 2.6654 * CSS_SCALE, 1.8214 * CSS_SCALE);
@@ -404,7 +447,7 @@ export default function WatchRoom3D({
     tvCssObj.scale.set((4.218 * CSS_SCALE) / 1280, (2.372 * CSS_SCALE) / 720, (4.218 * CSS_SCALE) / 1280);
     cssScene.add(tvCssObj);
 
-    setTvMountNode(tvEl);
+    setTvReady(true);
 
 
     // 4. PC & Mac screens with looping video
@@ -577,7 +620,11 @@ export default function WatchRoom3D({
       renderer.dispose();
       if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement);
       if (el.contains(cssRenderer.domElement)) el.removeChild(cssRenderer.domElement);
-      setTvMountNode(null);
+      if (ytPlayerRef.current && typeof ytPlayerRef.current.destroy === 'function') {
+        try { ytPlayerRef.current.destroy(); } catch (e) {}
+        ytPlayerRef.current = null;
+      }
+      setTvReady(false);
     };
   }, []);
 
@@ -588,13 +635,21 @@ export default function WatchRoom3D({
 
   // ── YouTube Player Lifecycle ──────────────────────────────────────────
   useEffect(() => {
-    if (!tvMountNode) return;
+    if (!tvReady) return;
+    const ytContainer = document.getElementById('wr3d-yt-player-container');
+    const standbyEl = document.getElementById('wr3d-tv-standby');
+
     if (!videoId) {
+      if (ytContainer) ytContainer.style.display = 'none';
+      if (standbyEl) standbyEl.style.display = 'flex';
       if (ytPlayerRef.current && typeof ytPlayerRef.current.stopVideo === 'function') {
         try { ytPlayerRef.current.stopVideo(); } catch (e) {}
       }
       return;
     }
+
+    if (ytContainer) ytContainer.style.display = 'block';
+    if (standbyEl) standbyEl.style.display = 'none';
 
     // If player already exists, load the new video without re-creating iframe or resetting player
     if (ytPlayerRef.current && typeof ytPlayerRef.current.loadVideoById === 'function') {
@@ -604,7 +659,7 @@ export default function WatchRoom3D({
           isSyncingRef.current = true;
           ytPlayerRef.current.loadVideoById({
             videoId,
-            startSeconds: currentTime || 0,
+            startSeconds: currentTimeRef.current || 0,
           });
           setTimeout(() => { isSyncingRef.current = false; }, 600);
         } catch (err) {
@@ -620,7 +675,7 @@ export default function WatchRoom3D({
       if (!isMounted) return;
       if (!document.getElementById('wr3d-yt-player')) return;
 
-      // Initialize YouTube Iframe API Player with native controls
+      // Initialize YouTube Iframe API Player with native controls & production origin
       try {
         ytPlayerRef.current = new YT.Player('wr3d-yt-player', {
           videoId,
@@ -633,6 +688,8 @@ export default function WatchRoom3D({
             rel: 0,
             playsinline: 1,
             enablejsapi: 1,
+            origin: window.location.origin,
+            widget_referrer: window.location.origin,
           },
           events: {
             onReady: (event) => {
@@ -710,7 +767,7 @@ export default function WatchRoom3D({
     return () => {
       isMounted = false;
     };
-  }, [videoId, tvMountNode]);
+  }, [videoId, tvReady]);
 
   // ── Non-Destructive Play/Pause Synchronization (Freezes and resumes exactly at timestamp) ──
   useEffect(() => {
@@ -1083,36 +1140,6 @@ export default function WatchRoom3D({
       {/* 3-D canvas mount */}
       <div ref={mountRef} className="wr3d-canvas" />
 
-      {/* 3-D Television Screen (Portal): only the YouTube player, clean TV, no inputs */}
-      {tvMountNode && createPortal(
-        <>
-          <div
-            id="wr3d-yt-player-container"
-            className="wr3d-yt-player-container"
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '1280px',
-              height: '720px',
-              display: videoId ? 'block' : 'none',
-              background: '#000000',
-              overflow: 'hidden',
-            }}
-          >
-            <div id="wr3d-yt-player" style={{ width: '1280px', height: '720px' }} />
-          </div>
-
-          {/* Standby screen shown when no video is loaded */}
-          {!videoId && (
-            <div className="wr3d-tv-standby" style={{ width: '1280px', height: '720px' }}>
-              <div className="wr3d-tv-standby-text">WATCHCRAFT THEATER</div>
-              <div className="wr3d-tv-standby-sub">Use the Add Video button to start watching</div>
-            </div>
-          )}
-        </>,
-        tvMountNode
-      )}
 
       {/* Loading overlay */}
       {loading && (
