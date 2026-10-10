@@ -1,0 +1,7692 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Reset ─────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  cursor: url('/images/default_mouse_64.png'), auto;
+}
+
+*:active {
+  cursor: url('/images/click_mouse_64.png'), auto;
+}
+
+a,
+button,
+[role="button"],
+.icon-btn,
+.start-btn,
+.creeper-btn {
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+}
+
+a:active,
+button:active,
+[role="button"]:active,
+.icon-btn:active,
+.start-btn:active,
+.creeper-btn:active {
+  cursor: url('/images/click_mouse_64.png'), pointer !important;
+}
+
+/* ─── RESET CURSORS FOR COMPUTER SYSTEM (Default Windows) ─── */
+.cs-root,
+.cs-root * {
+  cursor: auto !important;
+}
+
+.cs-root a,
+.cs-root button,
+.cs-root [role="button"],
+.cs-root .cs-desktop-icon,
+.cs-root .cs-start-btn,
+.cs-root .cs-taskbar-item,
+.cs-root .cs-win-btn,
+.cs-root .cs-close-btn {
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+}
+
+.cs-root input,
+.cs-root textarea,
+.cs-root .cs-term-input,
+.cs-root .cs-boot-cursor,
+.cs-root .cs-term-cursor {
+  cursor: text !important;
+}
+
+html,
+body,
+#root {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  min-width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+  cursor: url('/images/default_mouse_64.png'), auto !important;
+}
+
+/* ─── Screen root ────────────────────────────────────── */
+.screen-root {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  user-select: none;
+}
+
+/* ─── Background image ───────────────────────────────── */
+.bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ─── Dark overlay ───────────────────────────────────── */
+.dark-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(1.8px);
+  z-index: 1;
+}
+
+/* ─── Vignette ───────────────────────────────────────── */
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 38%, rgba(0, 0, 0, 0.78) 100%);
+}
+
+/* ─── Noise / grain ──────────────────────────────────── */
+@keyframes noise-shift {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(-2px, 2px);
+  }
+
+  50% {
+    transform: translate(2px, -2px);
+  }
+
+  75% {
+    transform: translate(-1px, -1px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+  animation: noise-shift 0.15s steps(1) infinite;
+}
+
+/* ─── Fade in / out ──────────────────────────────────── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1.1s ease forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.6s ease forwards;
+}
+
+/* ─── Language selector ──────────────────────────────── */
+.lang-selector,
+.mute-btn-container {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10, 10, 10, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+  padding: 7px 11px;
+  backdrop-filter: blur(8px);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.08),
+    0 3px 12px rgba(0, 0, 0, 0.55);
+}
+
+/* Real rectangular flag image */
+.flag-img {
+  width: 28px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+  image-rendering: auto;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+.lang-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.52rem;
+  color: #e8e8e8;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.creeper-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2a2a2a;
+  border: 2px solid #111;
+  border-radius: 3px;
+  padding: 3px;
+  margin-left: 2px;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.25),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.60),
+    0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.creeper-btn:hover {
+  transform: scale(1.08);
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.35),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.75),
+    0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+/* ─── Center content ─────────────────────────────────── */
+.center-content {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Slightly above vertical center to match reference */
+  justify-content: center;
+  padding-bottom: 60px;
+  gap: 0;
+}
+
+/* ─── Title image – slow floating ────────────────────── */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.title-img {
+  width: clamp(300px, 50vw, 700px);
+  max-width: 88vw;
+  image-rendering: pixelated;
+  filter:
+    drop-shadow(0 0 28px rgba(255, 160, 50, 0.30)) drop-shadow(0 6px 36px rgba(0, 0, 0, 0.95));
+  animation: float 3.8s ease-in-out infinite;
+  /* Space below title → subtitle button */
+  margin-bottom: clamp(32px, 5.5vh, 52px);
+}
+
+/* ─── "Press / Touch any key" button ────────────────── */
+@keyframes pulse-opacity {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.start-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.52rem, 1.3vw, 0.72rem);
+  color: #ffffff;
+  background: linear-gradient(180deg, #181818 0%, #282828 100%);
+  border: 2px solid #4a4a4a;
+  border-radius: 4px;
+  padding: clamp(11px, 1.8vh, 16px) clamp(28px, 5vw, 52px);
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  letter-spacing: 0.04em;
+  /* Minecraft bevel */
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.10),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.50),
+    0 4px 20px rgba(0, 0, 0, 0.7);
+  animation: pulse-opacity 2.5s ease-in-out infinite;
+  transition: box-shadow 0.2s, transform 0.2s;
+  /* Space below subtitle → icons */
+  margin-bottom: clamp(40px, 6vh, 70px);
+}
+
+.start-btn:hover {
+  animation: none;
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.18),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(110, 170, 255, 0.28),
+    0 6px 24px rgba(0, 0, 0, 0.8);
+}
+
+/* ─── Social icon row ────────────────────────────────── */
+.icon-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.8vw, 32px);
+}
+
+/* ─── Individual icon button ─────────────────────────── */
+.icon-btn {
+  display: block;
+  width: clamp(68px, 7.5vw, 88px);
+  height: clamp(68px, 7.5vw, 88px);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  /* Minecraft bevel */
+  box-shadow:
+    inset 3px 3px 0 rgba(255, 255, 255, 0.22),
+    inset -3px -3px 0 rgba(0, 0, 0, 0.55),
+    0 5px 14px rgba(0, 0, 0, 0.65);
+  border: 2px solid rgba(0, 0, 0, 0.65);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  image-rendering: pixelated;
+}
+
+.icon-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.icon-btn:hover {
+  transform: scale(1.12) translateY(-2px);
+  box-shadow:
+    inset 3px 3px 0 rgba(255, 255, 255, 0.30),
+    inset -3px -3px 0 rgba(0, 0, 0, 0.60),
+    0 0 22px rgba(180, 220, 255, 0.40),
+    0 10px 22px rgba(0, 0, 0, 0.80);
+}
+
+/* ─── Footer ─────────────────────────────────────────── */
+.footer {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.42rem, 0.9vw, 0.58rem);
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.07em;
+}
+
+/* ══════════════════════════════════════════════════════
+   HOME SCREEN (Minecraft Main Menu Style)
+   — ALL effects copied exactly from StartScreen
+══════════════════════════════════════════════════════ */
+
+.hs-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  opacity: 0;
+  animation: hs-fade-in 0.5s ease forwards;
+}
+
+@keyframes hs-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Background — SAME as StartScreen .bg-img ── */
+.hs-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+/* ── Overlay — SAME as StartScreen .dark-overlay ── */
+.hs-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* ── Vignette — SAME as StartScreen .vignette ── */
+.hs-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.75) 100%);
+}
+
+/* ── Layout — SAME as StartScreen .center-content ── */
+.hs-container {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 60px;
+  gap: 0;
+}
+
+/* ── Title wrapper (holds title + splash text) ── */
+.hs-title-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(50px, 2vh, 24px);
+  margin-top: -60px;
+}
+
+/* ── Title — SAME effect as StartScreen .title-img ──
+   float animation, orange glow drop-shadow, pixelated */
+.hs-title {
+  width: clamp(300px, 50vw, 700px);
+  max-width: 88vw;
+  image-rendering: pixelated;
+  filter:
+    drop-shadow(0 0 28px rgba(255, 160, 50, 0.30)) drop-shadow(0 6px 36px rgba(0, 0, 0, 0.95));
+  /* animation: float 3.8s ease-in-out infinite; */
+  display: block;
+}
+
+/* ── Splash text — Minecraft yellow, anchored bottom-right of title ── */
+@keyframes hs-splash-pulse {
+
+  0%,
+  100% {
+    transform: rotate(-8deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(-8deg) scale(1.07);
+  }
+}
+
+.hs-splash {
+  position: absolute;
+  bottom: 160px;
+  right: -6px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.42rem, 0.95vw, 0.62rem);
+  color: #ffe659;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  text-shadow:
+    2px 2px 0 rgba(100, 70, 0, 0.9),
+    0 0 14px rgba(255, 200, 0, 0.55);
+  animation: hs-splash-pulse 2s ease-in-out infinite;
+  transform-origin: center;
+  rotate: -10deg;
+}
+
+/* ── Menu — vertical stack of main buttons ── */
+.hs-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 0.8vh, 8px);
+  margin-top: -100px;
+}
+
+/* ── Bottom row — Contact + Back side by side ── */
+.hs-bottom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1vw, 20px);
+  margin-top: clamp(20px, 0.8vh, 8px);
+}
+
+/* ── Image button base — SAME bevel + dark bg as StartScreen .start-btn ── */
+.hs-btn-img,
+.hs-btn-img-half {
+  background: linear-gradient(180deg, #181818 0%, #282828 100%);
+  border: 2px solid #4a4a4a;
+  border-radius: 4px;
+  padding: 0;
+  margin: 0;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  display: block;
+  /* SAME Minecraft bevel as StartScreen .start-btn */
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.10),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.50),
+    0 4px 20px rgba(0, 0, 0, 0.7);
+  /* SAME pulse animation as StartScreen .start-btn */
+  animation: pulse-opacity 2.5s ease-in-out infinite;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+/* Full-width buttons (btn1, btn2, btn3) — images have huge padding, so keep width small */
+.hs-btn-img {
+  width: clamp(220px, 32vw, 400px);
+  max-width: 21vw;
+}
+
+/* Half-width buttons (btn4, btn5) */
+.hs-btn-img-half {
+  width: clamp(107px, 15.5vw, 195px);
+  max-width: 10vw;
+}
+
+/* Inner img fills the button */
+.hs-btn-img img,
+.hs-btn-img-half img {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+/* ── Hover — SAME as StartScreen .start-btn:hover ── */
+.hs-btn-img:hover,
+.hs-btn-img-half:hover {
+  animation: none;
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.18),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(110, 170, 255, 0.28),
+    0 6px 24px rgba(0, 0, 0, 0.8);
+}
+
+/* ── Active — press down ── */
+.hs-btn-img:active,
+.hs-btn-img-half:active {
+  transform: translateY(1px);
+}
+
+/* ── Footer — SAME style as StartScreen .footer-text ── */
+.hs-footer-left {
+  position: absolute;
+  bottom: 10px;
+  left: 14px;
+  z-index: 10;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.38rem, 0.7vw, 0.48rem);
+  color: rgba(255, 255, 255, 0.40);
+  pointer-events: none;
+}
+
+.hs-footer-right {
+  position: absolute;
+  bottom: 10px;
+  right: 14px;
+  z-index: 10;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.38rem, 0.7vw, 0.48rem);
+  color: rgba(255, 255, 255, 0.40);
+  pointer-events: none;
+}
+
+
+/* ══════════════════════════════════════════════════════
+   NPC CHARACTER PANELS
+══════════════════════════════════════════════════════ */
+
+/* ── Idle breathing animation — subtle, game-like ── */
+@keyframes npc-idle {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* ── Wrapper — anchored to bottom corners ── */
+.npc-wrapper {
+  position: absolute;
+  z-index: 15;
+  bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  transition: transform 0.15s ease;
+}
+
+/* Hover: slight lift */
+.npc-wrapper:hover {
+  transform: translateY(-4px);
+}
+
+.npc-left {
+  left: clamp(50px, 3.5vw, 70px);
+  bottom: 50px;
+}
+
+.npc-right {
+  right: clamp(340px, 3.5vw, 70px);
+  bottom: 190px;
+}
+
+/* ── Character image — consistent scale for both ── */
+.npc-img {
+  height: clamp(140px, 22vh, 220px);
+  width: auto;
+  image-rendering: pixelated;
+  animation: npc-idle 3.2s ease-in-out infinite;
+  /* Deep drop shadow for grounding + warm ambient light */
+  filter:
+    drop-shadow(0 6px 16px rgba(0, 0, 0, 0.85)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6)) drop-shadow(0 -4px 12px rgba(255, 160, 60, 0.08));
+  transition: filter 0.15s ease;
+}
+
+/* Left faces right (toward center) — natural orientation */
+.npc-img-left {
+  height: 200px;
+  width: auto;
+  transform: scaleX(1);
+}
+
+/* Right faces left (toward center) — flipped */
+.npc-img-right {
+  height: 200px;
+  width: auto;
+  transform: scaleX(-1);
+}
+
+/* Hover glow — blue NPC highlight */
+.npc-wrapper:hover .npc-img {
+  filter:
+    drop-shadow(0 6px 16px rgba(0, 0, 0, 0.85)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 0px rgba(0, 0, 0, 0.603)) drop-shadow(0 0 0px rgba(110, 170, 255, 0.25));
+}
+
+/* ── Ground shadow — dark ellipse under character for grounding ── */
+.npc-shadow {
+  width: clamp(70px, 9vw, 120px);
+  height: 10px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.65) 0%, transparent 70%);
+  margin-top: -6px;
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+/* ── NPC Dialog Box ── */
+.npc-dialog {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 16px;
+  width: clamp(200px, 20vw, 280px);
+  /* SAME dark gradient as .start-btn */
+  background: linear-gradient(180deg, #1a1a1a 0%, #2a2a2a 100%);
+  border: 2px solid #4a4a4a;
+  border-radius: 3px;
+  /* Minecraft bevel */
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.10),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.50),
+    0 6px 24px rgba(0, 0, 0, 0.8);
+  padding: clamp(12px, 1.5vw, 18px);
+  /* Hidden by default */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* Dialog pointer triangle — CSS pseudo-element */
+.npc-dialog::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #2a2a2a;
+  /* Pixel-sharp */
+  image-rendering: pixelated;
+}
+
+/* Pointer border (outer triangle for the border effect) */
+.npc-dialog::before {
+  content: '';
+  position: absolute;
+  bottom: -13px;
+  width: 0;
+  height: 0;
+  border-left: 11px solid transparent;
+  border-right: 11px solid transparent;
+  border-top: 11px solid #4a4a4a;
+}
+
+/* LEFT dialog — positioned above + slightly toward center (right) */
+.npc-dialog-left {
+  left: 20%;
+  transform: translateY(8px);
+}
+
+.npc-dialog-left::after {
+  left: 24px;
+}
+
+.npc-dialog-left::before {
+  left: 23px;
+}
+
+/* RIGHT dialog — positioned above + slightly toward center (left) */
+.npc-dialog-right {
+  right: -220px;
+  transform: translateY(8px);
+}
+
+.npc-dialog-right::after {
+  right: 251px;
+}
+
+.npc-dialog-right::before {
+  right: 250px;
+}
+
+/* Visible state — fast fade-in + slide up */
+.npc-dialog-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Dialog title */
+.npc-dialog-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.44rem, 0.8vw, 0.58rem);
+  color: #ffffff;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.9);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/* Dialog description */
+.npc-dialog-desc {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.3rem, 0.55vw, 0.4rem);
+  color: rgba(200, 200, 200, 0.85);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+}
+
+/* ══════════════════════════════════════════════════════
+   MOBILE OVERRIDES FOR HOME SCREEN
+══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .npc-wrapper {
+    display: none !important;
+    /* Hide NPCs to prevent overlapping the menu */
+  }
+
+  .hs-title {
+    width: 85vw;
+    max-width: none;
+  }
+
+  .hs-splash {
+    bottom: 40px;
+    right: 0px;
+    font-size: 0.55rem;
+  }
+
+  .hs-menu {
+    margin-top: -40px;
+    gap: 12px;
+  }
+
+  .hs-btn-img {
+    width: 65vw;
+    max-width: none;
+  }
+
+  .hs-btn-img-half {
+    width: 31vw;
+    max-width: none;
+  }
+
+  .hs-bottom {
+    gap: 3vw;
+    margin-top: 12px;
+  }
+
+  .hs-footer-left,
+  .hs-footer-right {
+    font-size: 0.35rem;
+    bottom: 20px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   GAME ROOM SCREEN  (gr-*)
+══════════════════════════════════════════════════════ */
+
+/* ── Root wrapper ──────────────────────────────────── */
+.gr-root {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ── BACK button ───────────────────────────────────── */
+.gr-back-btn {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 300;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.72);
+  border: 2px solid #555;
+  padding: 8px 14px;
+  letter-spacing: 0.08em;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+}
+
+.gr-back-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #c6a227;
+  color: #f5c842;
+}
+
+.gr-back-btn:active {
+  transform: scale(0.96);
+}
+
+/* ── HUD (status strip) ────────────────────────────── */
+.gr-hud {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 300;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.42rem;
+  letter-spacing: 0.1em;
+}
+
+.gr-hud-status {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.68);
+  border: 1px solid #444;
+  padding: 5px 10px;
+  color: #aaa;
+  transition: color 0.2s;
+}
+
+.gr-hud-moving {
+  color: #5dfc8e;
+  animation: gr-blink 0.6s step-end infinite;
+}
+
+/* ── Click hint bar ────────────────────────────────── */
+.gr-hint {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 7px 18px;
+  letter-spacing: 0.08em;
+  animation: gr-hint-fade 3.5s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes gr-hint-fade {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px);
+  }
+
+  15% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── Room container (image + all layers) ───────────── */
+.gr-room-container {
+  position: relative;
+  /* Maintain 16:9 but shrink to fit viewport */
+  width: min(100vw, 177.8vh);
+  height: min(100vh, 56.25vw);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .gr-room-container {
+    transform: scale(1.5);
+    /* Zoom in on mobile to make the 80% room much larger and playable */
+    transform-origin: center center;
+  }
+}
+
+/* ── Room background image ─────────────────────────── */
+.gr-room-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  image-rendering: auto;
+}
+
+/* ── Entity hover zones ────────────────────────────── */
+.gr-entity-zone {
+  position: absolute;
+  z-index: 20;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  border-radius: 2px;
+  transition: box-shadow 0.15s ease;
+}
+
+.gr-entity-zone--hovered {
+  box-shadow:
+    inset 0 0 0 2px rgba(198, 162, 39, 0.85),
+    0 0 16px 4px rgba(198, 162, 39, 0.25);
+  background: rgba(198, 162, 39, 0.07);
+}
+
+.gr-entity-label {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.42rem;
+  color: #f5c842;
+  background: rgba(0, 0, 0, 0.82);
+  border: 1px solid #c6a227;
+  padding: 4px 10px;
+  pointer-events: none;
+  letter-spacing: 0.08em;
+  animation: gr-pop 0.12s ease;
+}
+
+@keyframes gr-pop {
+  from {
+    transform: translateX(-50%) scale(0.85);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ── Player shadow ─────────────────────────────────── */
+.gr-player-shadow {
+  position: absolute;
+  width: 180px;
+  height: 48px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55) 0%, transparent 75%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 5;
+  transform-origin: center;
+}
+
+/* ── Player sprite ─────────────────────────────────── */
+.gr-player {
+  position: absolute;
+  width: clamp(150px, 16.5%, 270px);
+  image-rendering: pixelated;
+  pointer-events: none;
+  transform-origin: bottom center;
+  /* z-index is set dynamically via JS for depth */
+  transition: transform 0.15s;
+}
+
+@media (max-width: 768px) {
+  .gr-player {
+    width: clamp(80px, 10%, 120px);
+  }
+
+  .gr-player-shadow {
+    width: 100px;
+    height: 26px;
+  }
+}
+
+/* Idle: subtle up/down bob */
+.gr-player-idle {
+  animation: gr-idle-bob 1.8s ease-in-out infinite;
+}
+
+@keyframes gr-idle-bob {
+  0% {
+    margin-top: 0;
+  }
+
+  45% {
+    margin-top: -4px;
+  }
+
+  100% {
+    margin-top: 0;
+  }
+}
+
+/* Walking: slight lean + faster bob */
+.gr-player-walking {
+  animation: gr-walk-bob 0.35s ease-in-out infinite;
+}
+
+@keyframes gr-walk-bob {
+  0% {
+    margin-top: 0;
+  }
+
+  50% {
+    margin-top: -5px;
+  }
+
+  100% {
+    margin-top: 0;
+  }
+}
+
+/* ── Walk-target ripple indicator ──────────────────── */
+.gr-walk-target {
+  position: absolute;
+  width: 22px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(93, 252, 142, 0.7);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 18;
+  animation: gr-ripple 0.55s ease-out infinite;
+}
+
+@keyframes gr-ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* ── NPC DIALOG SYSTEM ─────────────────────────────── */
+.npc-dlg-root {
+  position: absolute;
+  bottom: 0;
+  left: 2%;
+  width: 96%;
+  max-width: 900px;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  z-index: 1000;
+  pointer-events: auto;
+  animation: npc-slide-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes npc-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.npc-dlg-portrait-wrap {
+  width: clamp(120px, 25%, 220px);
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: -4px;
+}
+
+.npc-dlg-portrait {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  /* subtle breathing idle */
+  animation: npc-breathe 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes npc-breathe {
+
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(1.02) translateY(-2px);
+  }
+}
+
+.npc-dlg-panel {
+  flex: 1;
+  background: rgba(5, 5, 5, 0.95);
+  /* #1E1A16 */
+  border: 4px solid #616161;
+  /* #6B4F2A */
+  border-radius: 4px;
+  padding: 24px 20px 20px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(200, 155, 60, 0.05);
+  margin-bottom: 20px;
+}
+
+.npc-dlg-nametag {
+  position: absolute;
+  top: -16px;
+  left: 16px;
+  background: #8a8989;
+  /* #C89B3C */
+  color: #1e1a16;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  padding: 6px 12px;
+  border: 2px solid #1e1a16;
+  border-radius: 2px;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.05em;
+}
+
+.npc-dlg-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.45rem, 1.2vw, 0.55rem);
+  color: #ede6d6;
+  /* #EDE6D6 */
+  line-height: 1.8;
+  min-height: 80px;
+  margin-bottom: 20px;
+}
+
+.gr-cursor {
+  display: inline-block;
+  color: #5dfc8e;
+  animation: gr-blink 0.7s step-end infinite;
+}
+
+@keyframes gr-blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.npc-dlg-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.npc-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45em;
+  padding: 10px 16px;
+  border: none;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  text-transform: uppercase;
+  transition: transform 0.1s, filter 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.npc-btn:active {
+  transform: translateY(2px);
+}
+
+.npc-btn-primary {
+  background: #8a8989;
+  /* #C89B3C */
+  color: #1e1a16;
+  box-shadow: 0 4px 0 #464646;
+  /* Darker warm accent */
+}
+
+.npc-btn-primary:hover {
+  filter: brightness(1.15);
+}
+
+.npc-btn-secondary {
+  background: #444444;
+  /* Slightly lighter than panel bg */
+  color: #8a8989;
+  border: 2px solid #484848;
+  box-shadow: 0 4px 0 #1e1a16;
+}
+
+.npc-btn-secondary:hover {
+  background: #434343;
+  color: #ede6d6;
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+   COMPUTER SYSTEM UI \u2014 BOOT / LOGIN / DESKTOP
+   \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+
+/* Root overlay */
+.cs-root {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: #080c18;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+  font-family: 'Press Start 2P', monospace;
+  overflow: hidden;
+  transition: opacity 0.4s ease;
+  cursor: url('/images/default_mouse_64.png'), auto !important;
+}
+
+.cs-fading {
+  opacity: 0;
+}
+
+/* CRT scanlines */
+.cs-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom,
+      transparent 0px, transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px);
+}
+
+/* Blink utility */
+.cs-blink {
+  animation: gr-blink 1s step-end infinite;
+}
+
+/* ── BOOT SCREEN ───────────────────────────────────────── */
+.cs-boot {
+  flex: 1;
+  padding: 36px 48px;
+  background-color: #513620;
+  background-image: url('/images/dirt_background.png');
+  background-size: contain;
+  background-position: center;
+
+  color: #ffffff;
+  font-size: clamp(0.5rem, 1vw, 0.7rem);
+  line-height: 2;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+  overflow-y: auto;
+  cursor: url('/images/hover_mouse_64.png'), pointer;
+}
+
+.cs-boot-line {
+  white-space: pre;
+}
+
+.cs-boot-cursor {
+  display: inline-block;
+  color: #ffffff;
+  margin-top: 8px;
+}
+
+.cs-boot-prompt {
+  color: #ffffff;
+  margin-top: 20px;
+}
+
+/* ── LOGIN SCREEN ───────────────────────────────────────── */
+.cs-login {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #513620;
+  background-image: url('/images/dirt_background.png');
+  background-size: contain;
+  background-position: center;
+  padding: 20px;
+}
+
+.cs-login-box {
+  width: min(500px, 90vw);
+  background-image: url('/images/computer_gray.png');
+  /* background: #c6c6c6; */
+  border: 4px solid #000;
+  box-shadow:
+    inset 2px 2px 0 #ffffff,
+    inset -2px -2px 0 #555555;
+  padding: 4px;
+}
+
+.cs-login-titlebar {
+  background: linear-gradient(90deg, #0000a8, #2a88d6);
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cs-login-title-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 0 #000000;
+}
+
+.cs-login-help {
+  width: 22px;
+  height: 22px;
+  background: #c6c6c6;
+  border: 2px solid #ffffff;
+  border-right-color: #555555;
+  border-bottom-color: #555555;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: #000000;
+  cursor: url('/images/hover_mouse_64.png'), pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 2px;
+}
+
+.cs-login-help:active {
+  border-color: #555555;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  padding-bottom: 0;
+  padding-top: 2px;
+}
+
+.cs-login-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px;
+}
+
+.cs-login-avatar {
+  flex-shrink: 0;
+  width: 90px;
+  height: 90px;
+  background: #1e5cb3;
+  border: 2px solid #555555;
+  box-shadow: inset 2px 2px 0 #000000, 2px 2px 0 #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-login-avatar-letter {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 2.5rem;
+  color: #facc15;
+  text-shadow: 2px 2px 0 #a16207;
+}
+
+.cs-login-fields {
+  flex: 1;
+}
+
+.cs-login-desc {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.35rem;
+  color: #000080;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.cs-login-field-row {
+  margin-bottom: 12px;
+}
+
+.cs-login-label {
+  display: block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.35rem;
+  color: #000000;
+  margin-bottom: 4px;
+}
+
+.cs-login-input {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.35rem;
+  padding: 6px 8px;
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #555555;
+  box-shadow: inset 2px 2px 0 #000000;
+  outline: none;
+}
+
+.cs-login-input:focus {
+  background: #eef2ff;
+}
+
+.cs-login-input::placeholder {
+  color: #888888;
+}
+
+.cs-login-divider {
+  height: 2px;
+  background: #555555;
+  border-bottom: 2px solid #ffffff;
+  margin: 12px 4px 16px 4px;
+}
+
+.cs-login-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 0 12px 12px;
+}
+
+.cs-win-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.38rem;
+  padding: 8px 20px;
+  background: #c6c6c6;
+  border: 2px solid #ffffff;
+  border-right-color: #555555;
+  border-bottom-color: #555555;
+  color: #000000;
+  /* cursor: url('/images/hover_mouse_64.png'), pointer !important; */
+  box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #ffffff;
+  transition: filter 0.1s;
+}
+
+.cs-win-btn:hover {
+  filter: brightness(0.9);
+}
+
+.cs-win-btn:active {
+  border-color: #555555;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  box-shadow: inset 1px 1px 0 #000000, inset -1px -1px 0 #ffffff;
+}
+
+/* ── DESKTOP ────────────────────────────────────────────── */
+.cs-desktop-root {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background-color: #3a6186;
+  background-image: url('/images/desktop_background.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Desktop icons */
+.cs-desktop-icons {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cs-desktop-icon {
+  width: 76px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  /* cursor: url('/images/hover_mouse_64.png'), pointer !important; */
+  color: #fff;
+  cursor: url('/images/hover_mouse_64.png'), pointer;
+  font-family: 'Press Start 2P', monospace;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.cs-desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.cs-di-emoji {
+  font-size: 2rem;
+  line-height: 1;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.6));
+}
+
+.cs-di-label {
+  font-size: 0.3rem;
+  color: #fff;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* Taskbar */
+.cs-taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(180deg, #1a4a8a 0%, #0d3060 100%);
+  background-image: url('/images/desktop_background.png');
+  border-top: 2px solid #2d70c0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  z-index: 5000;
+}
+
+.cs-start-btn {
+  height: 100%;
+  padding: 0 16px;
+  background: linear-gradient(180deg, #2d8c2d 0%, #1a5c1a 100%);
+  border: none;
+  border-right: 2px solid #3aa03a;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.38rem;
+  /* cursor: url('/images/hover_mouse_64.png'), pointer !important; */
+  transition: filter 0.1s;
+  white-space: nowrap;
+}
+
+.cs-start-btn:hover {
+  filter: brightness(1.2);
+}
+
+.cs-taskbar-icon-img {
+  width: 30px;
+  height: 30px;
+  image-rendering: pixelated;
+  vertical-align: text-bottom;
+  margin-right: 6px;
+  object-fit: contain;
+}
+
+.cs-taskbar-windows {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+  padding: 0 8px;
+  overflow-x: auto;
+}
+
+.cs-taskbar-item {
+  height: 30px;
+  padding: 0 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.3rem;
+  /* cursor: url('/images/hover_mouse_64.png'), pointer !important; */
+  white-space: nowrap;
+  transition: background 0.1s;
+}
+
+.cs-taskbar-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.cs-taskbar-clock {
+  height: 100%;
+  padding: 0 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.38rem;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* ──── WINDOWS ──────────────────────────────────────────────────────── */
+.cs-window {
+  position: absolute;
+  width: 500px;
+  background: #c6c6c6;
+  border: 4px solid #000;
+  box-shadow: inset 2px 2px 0 #fff, inset -2px -2px 0 #555, 4px 4px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.cs-window.cs-window-maximized {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: calc(100% - 30px) !important;
+  /* taskbar height is 30px */
+}
+
+.cs-window-titlebar {
+  background: linear-gradient(90deg, #000080, #1084d0);
+  padding: 5px 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: move;
+  user-select: none;
+}
+
+.cs-window-icon-img {
+  width: 30px;
+  height: 30px;
+  image-rendering: pixelated;
+  margin-right: 6px;
+  object-fit: contain;
+}
+
+.cs-window-title {
+  flex: 1;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.42rem;
+  color: #fff;
+}
+
+.cs-window-controls {
+  display: flex;
+  gap: 3px;
+}
+
+.cs-wctrl {
+  width: 18px;
+  height: 16px;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  font-size: 0.5rem;
+  font-family: monospace;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  line-height: 1;
+  padding: 0;
+}
+
+.cs-wctrl:active {
+  border-color: #555;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  box-shadow: inset 1px 1px 0 #000, inset -1px -1px 0 #fff;
+}
+
+.cs-wctrl-max {
+  color: #000;
+  font-weight: bold;
+}
+
+.cs-wctrl-close {
+  color: #800000;
+  font-weight: bold;
+}
+
+.cs-window-body {
+  padding: 16px;
+  background: #fcfcfc;
+  /* Soft white */
+  max-height: 340px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cs-window-maximized .cs-window-body {
+  max-height: none;
+}
+
+.cs-win-heading {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  color: #1e3a8a;
+  /* Softer blue */
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #a3a3a3;
+}
+
+.cs-win-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.cs-win-section {
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 2px solid #a3a3a3;
+  border-top-color: #d4d4d4;
+  border-left-color: #d4d4d4;
+}
+
+.cs-win-section-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  text-decoration: underline;
+  color: #1e3a8a;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.cs-win-section-desc {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  color: #4b5563;
+  /* Softer dark gray */
+  line-height: 1.8;
+}
+
+.cs-win-footer {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  border-top: 2px solid #808080;
+}
+
+.cs-win-link-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.35rem;
+  padding: 8px 14px;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  color: #000;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 1px 1px 0 #808080;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  transition: filter 0.1s;
+}
+
+.cs-win-link-btn:hover {
+  filter: brightness(0.9);
+}
+
+.cs-win-link-btn:active {
+  border-color: #404040;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+}
+
+
+/* ── TERMINAL ────────────────────────────────────────────── */
+.cs-terminal {
+  flex: 1;
+  padding: 40px 48px;
+  background: #080c18;
+  color: #4ade80;
+  font-size: clamp(0.5rem, 1.2vw, 0.75rem);
+  line-height: 2.2;
+  text-shadow: 0 0 6px rgba(74, 222, 128, 0.5);
+  overflow-y: auto;
+  cursor: url('/images/hover_mouse_64.png'), pointer;
+}
+
+.cs-term-line {
+  margin-bottom: 2px;
+  white-space: pre-wrap;
+}
+
+.cs-term-cursor {
+  display: inline-block;
+  color: #4ade80;
+  animation: gr-blink 0.8s step-end infinite;
+}
+
+.cs-term-prompt {
+  color: #86efac;
+  margin-top: 24px;
+  animation: gr-blink 1.2s ease-in-out infinite;
+}
+
+/* ── CRAFTING DESKTOP ────────────────────────────────────── */
+.cs-desktop {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0d1120;
+}
+
+/* Stone-tile grid pattern */
+.cs-desktop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+.cs-exit-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  background: #1e2d1e;
+  color: #4ade80;
+  border: 2px solid #166534;
+  border-bottom: 4px solid #052e16;
+  padding: 10px 16px;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  transition: filter 0.1s;
+  z-index: 10;
+}
+
+.cs-exit-btn:hover {
+  filter: brightness(1.3);
+}
+
+.cs-exit-btn:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.cs-crafting-wrapper {
+  position: relative;
+  background: #1a2035;
+  padding: 32px 36px;
+  border: 4px solid #2d3f5c;
+  border-top-color: #3d5070;
+  border-left-color: #3d5070;
+  border-right-color: #111825;
+  border-bottom-color: #111825;
+  box-shadow:
+    inset 4px 4px 0 rgba(255, 255, 255, 0.04),
+    inset -4px -4px 0 rgba(0, 0, 0, 0.4),
+    0 20px 60px rgba(0, 0, 0, 0.9);
+}
+
+.cs-crafting-title {
+  font-size: 0.55rem;
+  color: #facc15;
+  text-align: center;
+  margin-bottom: 24px;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
+}
+
+.cs-crafting-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+/* ── INVENTORY SLOT ──────────────────────────────────────── */
+.cs-slot {
+  width: 80px;
+  height: 80px;
+  background: #0d1626;
+  border: 3px solid #000;
+  border-top-color: #2d3f5c;
+  border-left-color: #2d3f5c;
+  border-right-color: #050a12;
+  border-bottom-color: #050a12;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  transition: filter 0.1s, background 0.1s;
+}
+
+.cs-slot-hovered {
+  background: #162040;
+  filter: brightness(1.4);
+}
+
+.cs-item-icon {
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+  filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.6));
+}
+
+.cs-item-fallback {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+/* ── TOOLTIP ─────────────────────────────────────────────── */
+.cs-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #100c1c;
+  border: 2px solid #5b21b6;
+  border-top-color: #7c3aed;
+  padding: 8px 12px;
+  pointer-events: none;
+  z-index: 50;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+  animation: cs-pop 0.1s ease-out forwards;
+}
+
+.cs-tooltip-name {
+  font-size: 0.45rem;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.cs-tooltip-sub {
+  font-size: 0.35rem;
+  color: #a78bfa;
+}
+
+@keyframes cs-pop {
+  from {
+    transform: translateX(-50%) scale(0.85);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.cs-crafting-hint {
+  text-align: center;
+  font-size: 0.35rem;
+  color: #4a5568;
+  margin-top: 8px;
+}
+
+/* ── PANEL OVERLAY ───────────────────────────────────────── */
+.cs-panel-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.cs-panel {
+  width: 90%;
+  max-width: 540px;
+  background: #0f172a;
+  border: 4px solid #facc15;
+  border-top-color: #fde68a;
+  border-left-color: #fde68a;
+  border-right-color: #92400e;
+  border-bottom-color: #92400e;
+  padding: 28px 28px 24px;
+  box-shadow:
+    inset 0 0 0 2px #1e293b,
+    0 20px 60px rgba(0, 0, 0, 0.95);
+  animation: cs-scale-in 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes cs-scale-in {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.cs-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #1e3a5f;
+}
+
+.cs-panel-title {
+  color: #facc15;
+  font-size: 0.65rem;
+  margin: 0;
+  line-height: 1.4;
+  text-shadow: 0 0 8px rgba(250, 204, 21, 0.3);
+}
+
+.cs-panel-body {
+  font-size: 0.42rem;
+  color: #cbd5e1;
+  line-height: 2.2;
+}
+
+.cs-panel-line {
+  margin-bottom: 4px;
+}
+
+.cs-panel-footer {
+  margin-top: 24px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ── BUTTONS ─────────────────────────────────────────────── */
+.cs-btn {
+  font-family: 'Press Start 2P', monospace;
+  background: #1e3a5f;
+  color: #e2e8f0;
+  border: 2px solid #2d5a8e;
+  border-top-color: #3b82b0;
+  border-left-color: #3b82b0;
+  border-right-color: #0f2040;
+  border-bottom: 4px solid #0f2040;
+  padding: 10px 18px;
+  font-size: 0.4rem;
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+  text-decoration: none;
+  display: inline-block;
+  transition: filter 0.1s, transform 0.1s;
+}
+
+.cs-btn:hover {
+  filter: brightness(1.25);
+}
+
+.cs-btn:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.cs-close-btn {
+  background: #7f1d1d;
+  color: #fca5a5;
+  border-color: #991b1b;
+  border-top-color: #b91c1c;
+  border-left-color: #b91c1c;
+  border-right-color: #450a0a;
+  border-bottom-color: #450a0a;
+  padding: 8px 12px;
+  font-size: 0.35rem;
+  flex-shrink: 0;
+}
+
+/* Enforce Native Cursors in OS */
+.cs-root,
+.cs-root * {
+  cursor: default;
+}
+
+.cs-root button,
+.cs-root a,
+.cs-root .cs-desktop-icon,
+.cs-root .cs-win-btn,
+.cs-root .cs-login-help,
+.cs-root .cs-start-btn,
+.cs-root .cs-taskbar-item,
+.cs-root .cs-wctrl {
+  cursor: url('/images/hover_mouse_64.png'), pointer !important;
+}
+
+.cs-root input {
+  cursor: text !important;
+}
+
+/* ── QUIET LOADER ───────────────────────────────────────── */
+.quiet-loader {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  z-index: 100;
+  text-shadow: 1px 1px 0 #000;
+  animation: quiet-blink 1.5s infinite;
+}
+
+@keyframes quiet-blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ── PROJECT DETAILS VIEW ───────────────────────────────────────── */
+.cs-clickable-section {
+  cursor: url('/images/hover_mouse_64.png'), pointer;
+  transition: filter 0.1s;
+}
+
+.cs-clickable-section:hover {
+  filter: brightness(0.9);
+}
+
+.cs-project-details-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cs-pd-header {
+  margin-bottom: 8px;
+}
+
+.cs-pd-back-btn {
+  font-family: 'Press Start 2P', monospace;
+  background: none;
+  border: none;
+  color: #1e3a8a;
+  font-size: 0.5rem;
+  cursor: url('/images/hover_mouse_64.png'), pointer;
+  padding: 0;
+  margin-bottom: 16px;
+  text-decoration: underline;
+}
+
+.cs-pd-back-btn:hover {
+  color: #3b82b0;
+}
+
+.cs-pd-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.65rem;
+  color: #1e3a8a;
+  margin: 0 0 10px;
+}
+
+.cs-pd-desc {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.cs-pd-banner-container {
+  width: 100%;
+  border: 4px solid #000;
+  box-shadow: inset 2px 2px 0 #fff, inset -2px -2px 0 #555;
+  background: #000;
+  margin-bottom: 8px;
+}
+
+.cs-pd-banner {
+  width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.cs-pd-skills-section {
+  margin-bottom: 8px;
+  border-bottom: 2px solid #a3a3a3;
+  padding-bottom: 12px;
+}
+
+.cs-pd-skills-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: #1e3a8a;
+  margin-bottom: 10px;
+}
+
+.cs-pd-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cs-pd-skill-tag {
+  background: #3b82b0;
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 0.5rem;
+  font-family: 'Press Start 2P', monospace;
+  border: 2px solid #2d5a8e;
+  border-top-color: #60a5fa;
+  border-left-color: #60a5fa;
+  border-right-color: #1e3a8a;
+  border-bottom-color: #1e3a8a;
+}
+
+.cs-pd-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.cs-pd-bullet {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.cs-pd-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 2px solid #a3a3a3;
+}
+/* ── RESUME VIEWER OVERLAY ──────────────────────────────── */
+.rv-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: rv-fade-in 0.3s ease-out;
+  background-image: url('/images/resume_background.png');
+  background-size: cover;
+  background-position: center;
+}
+
+@keyframes rv-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.rv-container {
+  width: min(96vw, 1200px);
+  height: min(90vh, 800px);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rv-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: transparent;
+
+  border-bottom: none;
+}
+
+.rv-header-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  color: #fbbf24;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.rv-close-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.38rem;
+  padding: 6px 14px;
+  background: #7f1d1d;
+  color: #fca5a5;
+  border: 2px solid #991b1b;
+  border-top-color: #b91c1c;
+  border-left-color: #b91c1c;
+  border-right-color: #450a0a;
+  border-bottom-color: #450a0a;
+  cursor: url('/images/hover_mouse_64.png'), pointer;
+}
+
+.rv-close-btn:hover {
+  filter: brightness(1.3);
+}
+
+.rv-panels {
+  flex: 1;
+  display: flex;
+  gap: 0;
+  min-height: 0;
+}
+
+.rv-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #555;
+  min-width: 0;
+}
+
+.rv-panel-titlebar {
+  background: linear-gradient(90deg, #000080, #1084d0);
+  padding: 8px 12px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: #fff;
+  user-select: none;
+  text-align: center;
+}
+
+.rv-panel-body {
+  flex: 1;
+  background: #c0c0c0;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.rv-pdf-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.rv-panel-footer {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  background: #c0c0c0;
+  border-top: 2px solid #808080;
+}
+
+.rv-download-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.35rem;
+  padding: 8px 16px;
+  background: #c0c0c0;
+  color: #000;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  text-decoration: none;
+  cursor: url('/images/hover_mouse_64.png'), pointer;
+}
+
+.rv-download-btn:hover {
+  filter: brightness(0.9);
+}
+
+.rv-download-btn:active {
+  border-color: #555;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+}
+
+/* Responsive: stack on mobile */
+@media (max-width: 768px) {
+  .rv-panels {
+    flex-direction: column;
+  }
+
+  .rv-container {
+    height: 95vh;
+    width: 98vw;
+  }
+}
+
+/* ── PAPER RESUME VIEW (STACKED) ────────────────────── */
+.paper-stack {
+  position: relative;
+  width: min(550px, 90vw);
+  height: min(880px, 90vh);
+  margin: auto;
+}
+
+.paper-stack-item {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.paper-stack-item.paper-active {
+  z-index: 20;
+  transform: scale(1) translate(0, 0) rotate(0deg);
+}
+
+.paper-stack-item.paper-inactive {
+  z-index: 10;
+  transform: scale(0.95) translate(30px, -20px) rotate(4deg);
+  pointer-events: none;
+}
+
+/* Block text selection/scrolling on inactive paper — whole item is the click target */
+.paper-stack-item.paper-inactive .paper-text {
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.paper-stack-item.paper-inactive .paper-corner-click {
+  pointer-events: all;
+}
+
+.paper-fold {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #f3f4f6;
+  border: 4px solid #1f2937;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5);
+  image-rendering: pixelated;
+  font-family: 'Press Start 2P', monospace;
+  overflow: hidden;
+}
+
+.paper-active .paper-fold {
+  box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.6);
+}
+
+.paper-fold::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 40px;
+  width: 4px;
+  height: 100%;
+  background-color: rgba(244, 63, 94, 0.5);
+  z-index: 1;
+}
+
+.paper-fold::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-style: solid;
+  border-width: 0 4rem 4rem 0;
+  border-color: transparent #6b7280 transparent transparent;
+  box-shadow: -4px 4px 0 rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.paper-corner-click {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4rem;
+  height: 4rem;
+  z-index: 50;
+  cursor: url('/images/hover_mouse_64.png'), pointer;
+}
+
+.paper-text {
+  position: absolute;
+  top: 3rem;
+  left: 3.5rem;
+  right: 1.5rem;
+  bottom: 2rem;
+  overflow-y: auto;
+  outline: none;
+  line-height: 1.5;
+  color: #000;
+  z-index: 5;
+  padding-right: 16px;
+}
+
+.paper-text::-webkit-scrollbar {
+  width: 10px;
+}
+
+.paper-text::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.paper-text::-webkit-scrollbar-thumb {
+  background: #a3a3a3;
+  border: 2px solid #f3f4f6;
+}
+
+.paper-title {
+  font-size: 0.6rem;
+  margin-bottom: 16px;
+  font-weight: bold;
+  color: #111827;
+}
+
+.paper-intro {
+  margin-bottom: 16px;
+  font-size: 0.4rem;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+.paper-section {
+  margin-bottom: 24px;
+}
+
+.paper-section-title {
+  font-size: 0.5rem;
+  font-weight: bold;
+  color: #111827;
+  border-bottom: 2px solid #9ca3af;
+  margin-bottom: 12px;
+  padding-bottom: 4px;
+}
+
+.paper-section-content {
+  font-size: 0.4rem;
+  color: #1f2937;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.paper-item {
+  margin-bottom: 16px;
+}
+
+.paper-role {
+  font-weight: bold;
+  color: #1f2937;
+  font-size: 0.45rem;
+  margin-bottom: 6px;
+}
+
+.paper-company {
+  font-size: 0.35rem;
+  font-style: italic;
+  color: #4b5563;
+  margin-bottom: 6px;
+}
+
+.paper-description {
+  font-size: 0.38rem;
+  color: #1f2937;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.paper-education-item {
+  margin-bottom: 12px;
+}
+
+.paper-contact-text {
+  font-size: 0.35rem;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.paper-link {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.paper-link:hover {
+  color: #1e3a8a;
+}
+
+.paper-hole {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  background-color: #1f2937;
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.hole-top {
+  top: 12%;
+}
+
+.hole-middle {
+  top: 50%;
+}
+
+.hole-bottom {
+  bottom: 12%;
+}
+
+.rv-header-hint {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.3rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+  .paper-stack {
+    width: 95vw;
+    height: 80vh;
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   ABOUT SCREEN (Cinematic Intro)
+══════════════════════════════════════════════════════ */
+
+.about-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  z-index: 100;
+  cursor: url('/images/hover_mouse_64.png'), pointer;
+  user-select: none;
+}
+
+.about-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/dirt_background.png');
+  background-size: 128px 128px;
+  background-repeat: repeat;
+  image-rendering: pixelated;
+  z-index: 0;
+}
+
+.about-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;
+}
+
+.about-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.85) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.about-text-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.about-line {
+  position: absolute;
+  bottom: -10vh;
+  width: 80%;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.6rem, 1.5vw, 1.2rem);
+  color: #fff;
+  line-height: 1.8;
+  opacity: 0;
+  /* Z-depth text shadow matching boot screen */
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8), 0 4px 10px rgba(0, 0, 0, 0.6);
+  animation: cinematic-scroll 5s linear forwards;
+}
+
+/* Make the first "TECHEEZ" line slightly larger and colored */
+.about-line:nth-child(1) {
+  font-size: clamp(1rem, 2.5vw, 2rem);
+  color: #f5c842;
+  /* Classic yellow/gold */
+}
+
+@keyframes cinematic-scroll {
+  0% {
+    transform: translateY(10vh);
+    opacity: 0;
+  }
+
+  15% {
+    transform: translateY(-20vh);
+    opacity: 1;
+  }
+
+  80% {
+    transform: translateY(-80vh);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-95vh);
+    opacity: 0;
+  }
+}
+
+.about-hint {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.3);
+  z-index: 10;
+  pointer-events: none;
+  animation: pulse-opacity 2s ease-in-out infinite;
+}
+
+/* ══════════════════════════════════════════════════════
+   CONTACT SCREEN (Minecraft Dialog)
+══════════════════════════════════════════════════════ */
+
+.contact-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  overflow: hidden;
+  user-select: none;
+}
+
+.contact-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(12px) brightness(0.4);
+  z-index: 0;
+}
+
+.contact-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.contact-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.9) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Grey stone-like dialog panel */
+.contact-dialog {
+  position: relative;
+  z-index: 10;
+  width: 90vw;
+  max-width: 480px;
+  background-color: #c6c6c6;
+  border: 4px solid #000;
+  box-shadow:
+    inset 4px 4px 0 #ffffff,
+    inset -4px -4px 0 #555555,
+    0 16px 32px rgba(0, 0, 0, 0.8);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  animation: hs-fade-in 0.2s ease-out;
+}
+
+.contact-header {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.7rem, 2vw, 0.9rem);
+  color: #ffffff;
+  text-align: center;
+  margin: 12px 0 16px 0;
+  text-shadow: 2px 2px 0 #3b3b3b;
+  letter-spacing: 0.05em;
+}
+
+/* Recessed dark inner panel */
+.contact-content {
+  background-color: #1e1e1e;
+  border: 4px solid #000;
+  box-shadow:
+    inset 4px 4px 0 #000000,
+    inset -4px -4px 0 #555555;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-intro {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.45rem, 1.2vw, 0.55rem);
+  color: #e0e0e0;
+  line-height: 1.8;
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.38rem, 1vw, 0.45rem);
+  color: #a0a0a0;
+}
+
+.contact-value {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.45rem, 1.2vw, 0.55rem);
+  color: #f5c842;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+}
+
+.contact-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 0 4px;
+}
+
+/* Minecraft UI Buttons */
+.contact-btn-green,
+.contact-btn-grey {
+  flex: 1;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.45rem, 1.2vw, 0.55rem);
+  color: #ffffff;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+  padding: 16px 8px;
+  border: 4px solid #000;
+  cursor: url('/images/hover_mouse_64.png'), pointer;
+  outline: none;
+  transition: filter 0.1s;
+}
+
+.contact-btn-green {
+  background-color: #3c8527;
+  box-shadow:
+    inset 4px 4px 0 #5cbf41,
+    inset -4px -4px 0 #204a14;
+}
+
+.contact-btn-grey {
+  background-color: #8b8b8b;
+  box-shadow:
+    inset 4px 4px 0 #b3b3b3,
+    inset -4px -4px 0 #4a4a4a;
+}
+
+.contact-btn-green:hover,
+.contact-btn-grey:hover {
+  filter: brightness(1.2);
+}
+
+.contact-btn-green:active {
+  transform: scale(0.98);
+  box-shadow:
+    inset 4px 4px 0 #204a14,
+    inset -4px -4px 0 #5cbf41;
+}
+
+.contact-btn-grey:active {
+  transform: scale(0.98);
+  box-shadow:
+    inset 4px 4px 0 #4a4a4a,
+    inset -4px -4px 0 #b3b3b3;
+}
+
+/* ─── RESET CURSORS FOR COMPUTER SYSTEM (Default Windows) ─── */
+.cs-root,
+.cs-root * {
+  cursor: auto !important;
+}
+
+.cs-root a,
+.cs-root button,
+.cs-root [role="button"],
+.cs-root .cs-desktop-icon,
+.cs-root .cs-start-btn,
+.cs-root .cs-taskbar-item,
+.cs-root .cs-win-btn,
+.cs-root .cs-close-btn {
+  cursor: pointer !important;
+}
+
+.cs-root input,
+.cs-root textarea,
+.cs-root .cs-term-input,
+.cs-root .cs-boot-cursor,
+.cs-root .cs-term-cursor {
+  cursor: text !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   WATCHLY LOGIN AVATAR variant
+══════════════════════════════════════════════════════════ */
+.cs-login-avatar--watchly {
+  background: linear-gradient(135deg, #6c63ff, #e040fb) !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   WATCHLY HUB — connecting spinner
+══════════════════════════════════════════════════════════ */
+.wh-connecting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 16px;
+  color: #e0e0ff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  background: #0a0a1a;
+}
+
+.wh-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(108, 99, 255, 0.3);
+  border-top-color: #6c63ff;
+  border-radius: 50%;
+  animation: wh-spin 0.8s linear infinite;
+}
+
+@keyframes wh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   WATCHLY OS DESKTOP & APP WINDOW (Pixel Perfect Reference Match)
+══════════════════════════════════════════════════════════ */
+
+/* ── Desktop Root ── */
+.wos-desktop {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Press Start 2P', monospace;
+  overflow: hidden;
+  z-index: 200;
+  image-rendering: pixelated;
+  user-select: none;
+}
+
+/* ── Desktop Icon Grid (Left Column) ── */
+.wos-icon-grid {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 210;
+}
+
+.wos-desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 4px;
+  border-radius: 4px;
+  transition: background 0.12s;
+  width: 76px;
+}
+
+.wos-desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.wos-desktop-icon:focus {
+  outline: 1px dotted #38bdf8;
+  background: rgba(14, 116, 144, 0.35);
+}
+
+.wos-icon-img-wrap {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wos-icon-img {
+  width: 62px;
+  height: 62px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.85));
+}
+
+.wos-icon-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+  line-height: 1.3;
+}
+
+/* ── User Profile Badge (Bottom Left of Desktop) ── */
+.wos-user-badge {
+  position: absolute;
+  bottom: 52px;
+  left: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px 6px 8px;
+  background: rgba(10, 20, 36, 0.85);
+  border: 2px solid #1e3a5f;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  z-index: 210;
+}
+
+.wos-user-badge-avatar {
+  width: 34px;
+  height: 34px;
+  image-rendering: pixelated;
+  object-fit: cover;
+  border: 1px solid #38bdf8;
+  border-radius: 3px;
+}
+
+.wos-user-badge-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.wos-user-badge-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #ffffff;
+}
+
+.wos-user-badge-status {
+  font-family: 'Tahoma', sans-serif;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Main Watchly App Window ── */
+.wos-app-window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  z-index: 260;
+  overflow: hidden;
+  background: #0d1b2a;
+  border: 3px solid #1e5ba8;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 2px #0a192f,
+    inset 1px 1px 0 rgba(255, 255, 255, 0.25),
+    0 18px 45px rgba(0, 0, 0, 0.9);
+}
+
+/* Centered floating window matching reference */
+.wos-app-window--centered {
+  left: 50%;
+  top: calc(50% - 18px);
+  transform: translate(-50%, -50%);
+  width: min(980px, 80vw);
+  height: min(580px, 78vh);
+}
+
+.wos-app-window--dragged {
+  width: min(980px, 80vw);
+  height: min(580px, 78vh);
+  transform: none;
+}
+
+.wos-app-window--maximized {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 40px !important;
+  transform: none !important;
+  width: 100% !important;
+  height: calc(100vh - 40px) !important;
+  border-radius: 0 !important;
+}
+
+/* ── Window Titlebar ── */
+.wos-window-titlebar {
+  height: 28px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 0 8px;
+  background: linear-gradient(180deg, #1d6ed8 0%, #104ba6 60%, #0a3d8c 100%);
+  border-bottom: 2px solid #08244c;
+  cursor: grab;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.wos-window-titlebar:active {
+  cursor: grabbing;
+}
+
+.wos-titlebar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wos-titlebar-icon {
+  width: 18px;
+  height: 18px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.wos-titlebar-title {
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.wos-window-controls {
+  display: flex;
+  gap: 3px;
+}
+
+.wos-wbtn {
+  width: 22px;
+  height: 18px;
+  font-size: 10px;
+  font-weight: 700;
+  border: 1px solid;
+  border-color: #5ea4f8 #092c60 #092c60 #5ea4f8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Tahoma', sans-serif;
+  line-height: 1;
+  padding: 0;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #2b7ce8 0%, #1754b2 100%);
+  color: #ffffff;
+  transition: filter 0.1s;
+}
+
+.wos-wbtn:hover {
+  filter: brightness(1.2);
+}
+
+.wos-wbtn-close {
+  background: linear-gradient(180deg, #f03a3a 0%, #ba1616 100%);
+  border-color: #ff7575 #6b0707 #6b0707 #ff7575;
+}
+
+.wos-app-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   WATCHLY APP CONTENT (Inside the Floating Window)
+══════════════════════════════════════════════════════════ */
+.wa-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
+  font-family: 'Press Start 2P', monospace;
+  image-rendering: pixelated;
+}
+
+.wa-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 0;
+}
+
+.wa-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(4, 10, 22, 0.35) 0%, rgba(6, 12, 28, 0.55) 55%, rgba(4, 8, 20, 0.92) 100%);
+  z-index: 1;
+}
+
+.wa-layout {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── LEFT PANEL (~68% width) ── */
+.wa-left {
+  flex: 0 0 68%;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 36px 10px 36px;
+  gap: 16px;
+  overflow-y: auto;
+  min-width: 0;
+  align-items: stretch;
+}
+
+.wa-left::-webkit-scrollbar {
+  width: 4px;
+}
+
+.wa-left::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Header: Monitor Icon + 3D WATCHLY logo + Tagline ── */
+.wa-header-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-bottom: 2px;
+}
+
+.wa-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.wa-hdr-icon {
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.55));
+}
+
+.wa-hdr-text {
+  height: 96px;
+  width: auto;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.wa-tagline {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9.5px;
+  color: #38bdf8;
+  letter-spacing: 0.12em;
+  margin: 0;
+  text-align: center;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* ── CREATE ROOM & JOIN ROOM Buttons ── */
+.wa-main-btns {
+  display: flex;
+  gap: 14px;
+  max-width: 520px;
+  align-self: center;
+  width: 100%;
+}
+
+.wa-mc-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px 10px;
+  cursor: pointer;
+  color: #ffffff;
+  text-align: center;
+  border-style: solid;
+  border-width: 4px;
+  border-radius: 4px;
+  transition: filter 0.1s, transform 0.1s;
+  image-rendering: pixelated;
+  min-height: 115px;
+}
+
+.wa-mc-btn:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+}
+
+.wa-mc-btn:active {
+  filter: brightness(0.9);
+  transform: translateY(1px);
+}
+
+.wa-btn-create {
+  background: rgba(10, 28, 56, 0.92);
+  border-color: #0284c7;
+  box-shadow:
+    inset 4px 4px 0 rgba(125, 211, 252, 0.4),
+    inset -4px -4px 0 rgba(0, 0, 0, 0.7),
+    0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+.wa-btn-join {
+  background: rgba(30, 18, 5, 0.92);
+  border-color: #d97706;
+  box-shadow:
+    inset 4px 4px 0 rgba(253, 224, 71, 0.4),
+    inset -4px -4px 0 rgba(0, 0, 0, 0.7),
+    0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+.wa-mc-btn-img {
+  width: 72px;
+  height: 72px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.wa-mc-btn-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.wa-mc-btn-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  text-shadow: 2px 2px 0 #000;
+  text-align: center;
+}
+
+.wa-mc-btn-sub {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Tahoma', sans-serif;
+  text-align: center;
+}
+
+/* ── DISCOVER ROOMS ── */
+.wa-discover {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 9px 18px;
+  min-height: 50px;
+  background: rgba(8, 18, 38, 0.92);
+  border: 4px solid #2563eb;
+  border-radius: 4px;
+  box-shadow:
+    inset 4px 4px 0 rgba(147, 197, 253, 0.3),
+    inset -4px -4px 0 rgba(0, 0, 0, 0.7),
+    0 6px 18px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  color: #ffffff;
+  text-align: left;
+  width: 100%;
+  max-width: 520px;
+  align-self: center;
+  box-sizing: border-box;
+  transition: filter 0.1s, transform 0.1s;
+}
+
+.wa-discover:hover {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+}
+
+.wa-discover-img {
+  width: 38px;
+  height: 38px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.wa-discover-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.wa-discover-sub {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: 'Tahoma', sans-serif;
+  margin-top: 3px;
+}
+
+/* ── GENRES Section ── */
+.wa-genres-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 520px;
+  align-self: center;
+  width: 100%;
+}
+
+.wa-genres-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.wa-genres-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.08em;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.wa-genres-clear {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.6);
+  color: #fca5a5;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 3px 6px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.wa-genres-clear:hover {
+  background: rgba(239, 68, 68, 0.35);
+  color: #ffffff;
+}
+
+.wa-genres-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 6px 4px;
+  overflow: visible;
+}
+
+.wa-genre-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 6px 8px;
+  background: rgba(10, 16, 32, 0.9);
+  border: 3px solid #334155;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 0 0 80px;
+  width: 80px;
+  transition: filter 0.15s ease, background 0.15s ease;
+  image-rendering: pixelated;
+}
+
+.wa-genre-tile:hover {
+  filter: brightness(1.25);
+}
+
+.wa-genre-tile--active {
+  filter: brightness(1.35);
+  background: rgba(22, 36, 68, 0.98);
+}
+
+.wa-genre-tile[data-genre="movies"] {
+  border-color: #dc2626;
+  box-shadow: inset 3px 3px 0 rgba(254, 202, 202, 0.35), inset -3px -3px 0 rgba(0, 0, 0, 0.7);
+}
+
+.wa-genre-tile[data-genre="anime"] {
+  border-color: #ec4899;
+  box-shadow: inset 3px 3px 0 rgba(251, 207, 232, 0.35), inset -3px -3px 0 rgba(0, 0, 0, 0.7);
+}
+
+.wa-genre-tile[data-genre="education"] {
+  border-color: #10b981;
+  box-shadow: inset 3px 3px 0 rgba(167, 243, 208, 0.35), inset -3px -3px 0 rgba(0, 0, 0, 0.7);
+}
+
+.wa-genre-tile[data-genre="music"] {
+  border-color: #f59e0b;
+  box-shadow: inset 3px 3px 0 rgba(254, 240, 138, 0.35), inset -3px -3px 0 rgba(0, 0, 0, 0.7);
+}
+
+.wa-genre-tile[data-genre="gaming"] {
+  border-color: #6366f1;
+  box-shadow: inset 3px 3px 0 rgba(199, 210, 254, 0.35), inset -3px -3px 0 rgba(0, 0, 0, 0.7);
+}
+
+.wa-genre-tile[data-genre="sports"] {
+  border-color: #16a34a;
+  box-shadow: inset 3px 3px 0 rgba(187, 247, 208, 0.35), inset -3px -3px 0 rgba(0, 0, 0, 0.7);
+}
+
+.wa-genre-tile[data-genre="more"] {
+  border-color: #38bdf8;
+  box-shadow: inset 3px 3px 0 rgba(147, 233, 255, 0.35), inset -3px -3px 0 rgba(0, 0, 0, 0.7);
+  background: rgba(4, 20, 44, 0.95);
+}
+
+.wa-genre-tile-img {
+  width: 52px;
+  height: 52px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.wa-genre-tile-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 0.03em;
+  text-shadow: 1px 1px 0 #000;
+  line-height: 1.4;
+}
+
+/* ── RIGHT PANEL: LIVE NOW (~32% width) ── */
+.wa-right {
+  flex: 0 0 32%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(4, 10, 24, 0.95);
+  border-left: 2px solid #1e3a5f;
+  border-radius: 0 0 4px 0;
+  min-width: 0;
+}
+
+.wa-live-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 2px solid rgba(30, 90, 160, 0.5);
+  background: rgba(0, 5, 18, 0.75);
+  flex-shrink: 0;
+}
+
+.wa-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  flex-shrink: 0;
+  animation: wa-blink 1.2s ease-in-out infinite;
+  box-shadow: 0 0 6px #ef4444;
+}
+
+@keyframes wa-blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.wa-live-title {
+  flex: 1;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8.5px;
+  color: #ffffff;
+  letter-spacing: 0.08em;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.wa-refresh-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #38bdf8;
+  padding: 2px;
+  transition: transform 0.25s;
+}
+
+.wa-refresh-btn:hover {
+  transform: rotate(180deg);
+}
+
+.wa-live-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 6px;
+  gap: 5px;
+}
+
+.wa-live-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.wa-live-list::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.2);
+}
+
+.wa-live-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+  padding: 12px;
+  text-align: center;
+}
+
+.wa-live-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #38bdf8;
+  border-radius: 50%;
+  animation: wh-spin 0.8s linear infinite;
+}
+
+.wa-live-empty-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.wa-live-empty-btn {
+  margin-top: 4px;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  color: #38bdf8;
+  font-family: 'Tahoma', sans-serif;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.wa-live-empty-btn:hover {
+  background: rgba(56, 189, 248, 0.35);
+  color: #ffffff;
+}
+
+.wa-filter-pill {
+  background: rgba(56, 189, 248, 0.2);
+  border: 1px solid #38bdf8;
+  color: #38bdf8;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 3px 6px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-right: 4px;
+  transition: all 0.15s ease;
+}
+
+.wa-filter-pill:hover {
+  background: rgba(56, 189, 248, 0.45);
+  color: #ffffff;
+}
+
+.wa-live-empty-sub {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'Tahoma', sans-serif;
+}
+
+.wa-room-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px;
+  background: rgba(14, 24, 46, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 3px;
+  cursor: pointer;
+  color: #ffffff;
+  text-align: left;
+  width: 100%;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.wa-room-card:hover {
+  background: rgba(30, 58, 100, 0.9);
+  border-color: #38bdf8;
+}
+
+.wa-room-thumb {
+  width: 54px;
+  height: 36px;
+  overflow: hidden;
+  background: #000;
+  border-radius: 2px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wa-room-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wa-room-thumb-ph {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.wa-room-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.wa-room-name {
+  font-size: 9px;
+  font-weight: 700;
+  font-family: 'Tahoma', sans-serif;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+
+.wa-room-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.wa-room-viewers {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: 'Tahoma', sans-serif;
+}
+
+.wa-room-genre-badge {
+  font-size: 6.5px;
+  font-weight: 700;
+  font-family: 'Tahoma', sans-serif;
+  padding: 1px 4px;
+  border-radius: 2px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.wa-online-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(0, 4, 14, 0.9);
+  border-top: 1.5px solid rgba(30, 90, 160, 0.5);
+  flex-shrink: 0;
+}
+
+.wa-online-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px #22c55e;
+}
+
+.wa-online-info {
+  flex: 1;
+}
+
+.wa-online-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7.5px;
+  color: #22c55e;
+  letter-spacing: 0.08em;
+}
+
+.wa-online-count {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Tahoma', sans-serif;
+  margin-top: 1px;
+}
+
+.wa-group-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 2px;
+  color: #ffffff;
+  transition: transform 0.1s;
+}
+
+.wa-group-btn:hover {
+  transform: scale(1.15);
+}
+
+/* ── Taskbar (Bottom of Desktop) ── */
+.wos-taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: linear-gradient(180deg, #164082 0%, #0d2854 100%);
+  border-top: 2px solid #2563eb;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  gap: 6px;
+  z-index: 300;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.7);
+}
+
+/* ── EXIT Button ── */
+.wos-exit-btn {
+  height: 26px;
+  padding: 0 12px;
+  background: linear-gradient(180deg, #c0302a 0%, #8b1a16 100%);
+  border: 1px solid;
+  border-color: #e05050 #5a0a08 #5a0a08 #e05050;
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 0 #000;
+  transition: filter 0.1s;
+  flex-shrink: 0;
+}
+
+.wos-exit-btn:hover {
+  filter: brightness(1.25);
+}
+
+.wos-exit-btn:active {
+  filter: brightness(0.85);
+}
+
+.wos-taskbar-start {
+  height: 32px;
+  width: 36px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.wos-taskbar-start:hover {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: #38bdf8;
+}
+
+.wos-win-logo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  width: 14px;
+  height: 14px;
+}
+
+.wos-win-tile {
+  border-radius: 1px;
+  background: #38bdf8;
+}
+
+.wos-taskbar-items {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+  padding: 0 4px;
+}
+
+.wos-taskbar-item {
+  height: 30px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 11px;
+  font-family: 'Tahoma', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wos-taskbar-item--active {
+  background: rgba(14, 116, 144, 0.35);
+  border-color: #38bdf8;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.wos-tb-icon {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.wos-system-tray {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px;
+}
+
+.wos-tray-icon {
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.wos-tray-user {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 0.04em;
+}
+
+.wos-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.wos-clock-time {
+  font-size: 9px;
+  color: #ffffff;
+  font-family: 'Tahoma', sans-serif;
+  font-weight: 700;
+}
+
+.wos-clock-date {
+  font-size: 7px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Tahoma', sans-serif;
+}
+
+/* ── MODALS (XP Style Create/Join dialogs) ── */
+.wm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+}
+
+.wm-box {
+  min-width: 380px;
+  max-width: 520px;
+  background: #d4d0c8;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.7);
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+}
+
+.wm-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+  padding: 0 4px 0 6px;
+  background: linear-gradient(180deg, #1664c8 0%, #0040b0 55%, #0a4bd6 100%);
+}
+
+.wm-titlebar-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wm-title-icon {
+  width: 14px;
+  height: 14px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.wm-title-text {
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.wm-close-btn {
+  width: 18px;
+  height: 16px;
+  font-size: 10px;
+  font-weight: 700;
+  border: 1px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #d4d0c8;
+  cursor: pointer;
+  color: #000000;
+}
+
+.wm-close-btn:hover {
+  background: #e81123;
+  color: #ffffff;
+}
+
+.wm-body {
+  padding: 14px 16px;
+  background: #ffffff;
+  border: 1px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  margin: 3px;
+  display: flex;
+  flex-direction: column;
+}
+
+.wm-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.wm-input {
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  background: #ffffff;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-family: 'Tahoma', sans-serif;
+  color: #000000;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.wm-input:focus {
+  outline: 2px solid #0078d7;
+  outline-offset: -2px;
+}
+
+.wm-code-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.wm-code-input {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  flex: 1;
+}
+
+.wm-genre-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.wm-genre-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 4px;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #d4d0c8;
+  cursor: pointer;
+  transition: all 0.1s;
+  font-family: 'Tahoma', sans-serif;
+}
+
+.wm-genre-btn:hover {
+  background: #c0d8f0;
+}
+
+.wm-genre-btn--active {
+  background: #c0d8f0;
+  border-color: #0040b0;
+}
+
+.wm-genre-img {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.wm-genre-name {
+  font-size: 8px;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+}
+
+.wm-error {
+  font-size: 11px;
+  color: #cc0000;
+  background: #fff0f0;
+  border: 1px solid #ff9999;
+  padding: 3px 8px;
+  margin-top: 6px;
+}
+
+.wm-divider {
+  text-align: center;
+  color: #666666;
+  font-size: 11px;
+  margin: 10px 0 6px;
+}
+
+.wm-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.wm-btn {
+  padding: 5px 14px;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #d4d0c8;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #000000;
+}
+
+.wm-btn:hover {
+  background: #c0d8f0;
+}
+
+.wm-btn-primary {
+  background: linear-gradient(180deg, #1664c8 0%, #0040b0 100%);
+  color: #ffffff;
+  border-color: #5595e6 #003080 #003080 #5595e6;
+}
+
+.wm-btn-primary:hover {
+  background: linear-gradient(180deg, #2070d4 0%, #0050c0 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CREATE ROOM MODAL  (wcr- prefix)
+   Matches reference: dark Minecraft-style, XP titlebar, 3×2 genre grid
+═══════════════════════════════════════════════════════════════ */
+.wcr-box {
+  position: relative;
+  width: 480px;
+  max-width: 96vw;
+  background: #0d1a35;
+  border: 3px solid;
+  border-color: #3b82f6 #1e3a6e #1e3a6e #3b82f6;
+  box-shadow:
+    inset 2px 2px 0 rgba(125, 211, 252, 0.2),
+    0 20px 60px rgba(0, 0, 0, 0.85);
+  image-rendering: pixelated;
+}
+
+/* ── Titlebar ── */
+.wcr-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 6px;
+  background: linear-gradient(90deg, #1d4ed8 0%, #1e40af 100%);
+  border-bottom: 2px solid #1e3a6e;
+  user-select: none;
+}
+
+.wcr-titlebar-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wcr-title-icon {
+  width: 18px;
+  height: 18px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.wcr-title-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 0.05em;
+}
+
+.wcr-win-btns {
+  display: flex;
+  gap: 2px;
+}
+
+.wcr-wbtn {
+  width: 18px;
+  height: 16px;
+  font-size: 9px;
+  font-weight: 700;
+  border: 1px solid;
+  background: #d4d0c8;
+  cursor: pointer;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.wcr-wbtn-close:hover {
+  background: #e81123;
+  color: #fff;
+}
+
+/* ── Body ── */
+.wcr-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Header banner ── */
+.wcr-header-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  background: rgba(4, 12, 30, 0.8);
+  border: 2px solid #1e40af;
+  border-radius: 3px;
+}
+
+.wcr-banner-icon {
+  width: 54px;
+  height: 54px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.wcr-banner-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #000;
+  line-height: 1.3;
+}
+
+.wcr-banner-sub {
+  font-size: 10px;
+  color: rgba(148, 163, 184, 0.9);
+  font-family: 'Tahoma', sans-serif;
+  margin-top: 4px;
+}
+
+/* ── Field ── */
+.wcr-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wcr-field-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 0.06em;
+}
+
+/* ── Input ── */
+.wcr-input {
+  width: 100%;
+  padding: 9px 12px;
+  background: rgba(4, 16, 40, 0.9);
+  border: 2px solid #2563eb;
+  border-radius: 2px;
+  color: #ffffff;
+  font-family: 'Tahoma', sans-serif;
+  font-size: 12px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.wcr-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+.wcr-input--error {
+  border-color: #ef4444;
+}
+
+.wcr-input::placeholder {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.wcr-input:disabled {
+  opacity: 0.5;
+}
+
+/* ── Genre Grid ── */
+.wcr-genre-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.wcr-genre-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 6px 8px;
+  background: rgba(8, 18, 44, 0.9);
+  border: 2px solid #334155;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: filter 0.1s, border-color 0.15s, transform 0.1s;
+  image-rendering: pixelated;
+}
+
+.wcr-genre-btn:hover:not(:disabled) {
+  border-color: var(--g-accent, #3b82f6);
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+}
+
+.wcr-genre-btn--active {
+  border-color: var(--g-accent, #f59e0b) !important;
+  background: rgba(20, 30, 60, 0.95);
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.15),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+    0 0 10px color-mix(in srgb, var(--g-accent, #f59e0b) 40%, transparent);
+}
+
+.wcr-genre-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wcr-genre-img {
+  width: 44px;
+  height: 44px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.wcr-genre-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 #000;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* ── Visibility ── */
+.wcr-vis-row {
+  display: flex;
+  gap: 10px;
+}
+
+.wcr-vis-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(8, 18, 44, 0.9);
+  border: 2px solid #334155;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, filter 0.1s;
+  image-rendering: pixelated;
+}
+
+.wcr-vis-btn:hover:not(:disabled) {
+  filter: brightness(1.15);
+}
+
+.wcr-vis-btn--active {
+  border-color: #2563eb;
+  background: rgba(15, 30, 70, 0.95);
+  box-shadow: inset 2px 2px 0 rgba(147, 197, 253, 0.15), inset -2px -2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.wcr-vis-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wcr-vis-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.wcr-vis-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.wcr-vis-sub {
+  font-size: 9px;
+  color: rgba(148, 163, 184, 0.8);
+  font-family: 'Tahoma', sans-serif;
+  margin-top: 3px;
+}
+
+/* ── Error ── */
+.wcr-error {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #f87171;
+  text-shadow: 1px 1px 0 #000;
+  padding: 6px 10px;
+  background: rgba(127, 29, 29, 0.3);
+  border: 1px solid #ef4444;
+  border-radius: 2px;
+}
+
+/* ── Actions ── */
+.wcr-actions {
+  display: flex;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.wcr-btn-primary {
+  flex: 1;
+  padding: 10px 16px;
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  border: 2px solid;
+  border-color: #60a5fa #1e3a8a #1e3a8a #60a5fa;
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  cursor: pointer;
+  text-shadow: 1px 1px 0 #000;
+  transition: filter 0.1s;
+  letter-spacing: 0.04em;
+}
+
+.wcr-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.2);
+}
+
+.wcr-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wcr-btn-cancel {
+  padding: 10px 16px;
+  background: rgba(30, 41, 59, 0.9);
+  border: 2px solid #475569;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  cursor: pointer;
+  transition: filter 0.1s;
+}
+
+.wcr-btn-cancel:hover:not(:disabled) {
+  filter: brightness(1.2);
+}
+
+.wcr-btn-cancel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ════════════════════════════════════════════════════
+   WATCH PARTY VIEW — ARCADE / MINECRAFT EXPERIENCE
+   (Matches Image 2 reference UI precisely)
+   ════════════════════════════════════════════════════ */
+
+.wp-overlay-root {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: url('/images/desktop_background.png') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  font-family: 'Outfit', 'Chakra Petch', system-ui, sans-serif;
+  color: #ffffff;
+  user-select: none;
+}
+
+/* ── Main Window Frame ── */
+.wp-window {
+  width: 96vw;
+  max-width: 1360px;
+  height: 92vh;
+  max-height: 840px;
+  background: #081226;
+  border: 3px solid #0050c0;
+  box-shadow: 0 0 0 1px #38bdf8, 0 15px 50px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 102, 255, 0.4);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+/* Maximized by default: fills the entire viewport seamlessly */
+.wp-window--maximized {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  z-index: 500;
+}
+
+.wp-overlay-root:has(.wp-window--maximized) {
+  padding: 0;
+}
+
+/* ── Window Titlebar ── */
+.wp-titlebar {
+  height: 32px;
+  background: linear-gradient(180deg, #10347a 0%, #081e4a 100%);
+  border-bottom: 2px solid #003a94;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  flex-shrink: 0;
+}
+
+.wp-titlebar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wp-title-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.wp-title-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #e2e8f0;
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.wp-win-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.wp-wbtn {
+  width: 22px;
+  height: 20px;
+  background: #153e8a;
+  border: 1px solid #3b82f6;
+  border-radius: 2px;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.wp-wbtn:hover {
+  background: #2563eb;
+}
+
+.wp-wbtn-close {
+  background: #dc2626;
+  border-color: #ef4444;
+}
+
+.wp-wbtn-close:hover {
+  background: #b91c1c;
+}
+
+/* ── Top Header Navigation Bar (Image 2) ── */
+.wp-header-bar {
+  background: linear-gradient(180deg, #091a40 0%, #061129 100%);
+  border-bottom: 2px solid #143575;
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.wp-brand-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.wp-brand-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));
+}
+
+.wp-brand-title {
+  font-family: 'Chakra Petch', 'Press Start 2P', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: #38bdf8;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+}
+
+.wp-hdr-divider {
+  width: 2px;
+  height: 28px;
+  background: #143575;
+  flex-shrink: 0;
+}
+
+/* Room Title & Genre */
+.wp-room-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.wp-popcorn-icon {
+  font-size: 22px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.wp-room-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.wp-room-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffffff;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.wp-genre-pill {
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #ffffff;
+  letter-spacing: 0.06em;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+/* Live Badge Indicator */
+.wp-live-badge-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.wp-live-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wp-live-dot {
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ef4444;
+  animation: wpPulse 1.4s infinite;
+}
+
+.wp-live-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #ef4444;
+  letter-spacing: 0.05em;
+}
+
+.wp-online-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wp-online-dot {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #22c55e;
+}
+
+.wp-online-text {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+@keyframes wpPulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+/* Room Code Box */
+.wp-code-box {
+  background: #030a1c;
+  border: 1px solid #1d4ed8;
+  border-radius: 6px;
+  padding: 4px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  margin-left: auto;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+  flex-shrink: 0;
+}
+
+.wp-code-label {
+  font-size: 8px;
+  color: #64748b;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.wp-code-val {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: #38bdf8;
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+}
+
+/* Top Header Action Buttons */
+.wp-hdr-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.wp-btn-mc {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  letter-spacing: 0.04em;
+  text-shadow: 1px 1px 0 #000;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.3), inset -1px -1px 0 rgba(0, 0, 0, 0.5), 0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.wp-btn-copy {
+  background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
+  border: 2px solid #3b82f6;
+}
+
+.wp-btn-copy:hover {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+}
+
+.wp-btn-invite {
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  border: 2px solid #60a5fa;
+}
+
+.wp-btn-invite:hover {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+}
+
+.wp-btn-leave {
+  background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
+  border: 2px solid #ef4444;
+}
+
+.wp-btn-leave:hover {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+}
+
+/* ── Main Body Grid ── */
+.wp-body-grid {
+  flex: 1;
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Left Column: Video Player Area ── */
+.wp-video-column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #143575;
+  border-radius: 6px;
+  background: #020617;
+  overflow: hidden;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+}
+
+.wp-video-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #000000;
+  min-height: 0;
+}
+
+/* State 1: No Video Selected Backdrop */
+.wp-no-video-backdrop {
+  width: 100%;
+  height: 100%;
+  background: url('/images/watchly_computer_backgorund.png') center/cover no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wp-no-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(6, 18, 48, 0.65) 0%, rgba(2, 6, 23, 0.9) 100%);
+}
+
+.wp-no-video-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+}
+
+/* CRT Pixel Monitor Illustration */
+.wp-crt-monitor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.wp-crt-screen {
+  width: 100px;
+  height: 70px;
+  background: #020617;
+  border: 4px solid #38bdf8;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.5), inset 0 0 12px rgba(56, 189, 248, 0.3);
+}
+
+.wp-yt-play-icon {
+  width: 36px;
+  height: 26px;
+  background: #ef4444;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 13px;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.7);
+}
+
+.wp-crt-stand {
+  width: 30px;
+  height: 8px;
+  background: #38bdf8;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.wp-no-video-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+.wp-no-video-sub {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 22px;
+  font-weight: 500;
+}
+
+.wp-btn-add-video {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 28px;
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  border: 3px solid #60a5fa;
+  border-radius: 6px;
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 1px 1px 0 #000;
+}
+
+.wp-btn-add-video:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.2);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.7);
+}
+
+.wp-yt-badge {
+  background: #ef4444;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.wp-paste-hint {
+  margin-top: 14px;
+  background: none;
+  border: none;
+  color: #38bdf8;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+
+.wp-paste-hint:hover {
+  color: #7dd3fc;
+}
+
+.wp-viewer-waiting {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #94a3b8;
+  padding: 10px 16px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px dashed #334155;
+  border-radius: 6px;
+}
+
+/* State 2: Active YouTube Player */
+.wp-player-holder {
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.wp-yt-iframe {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Bottom Video Player Controls Bar ── */
+.wp-player-bar {
+  height: 52px;
+  background: linear-gradient(180deg, #091738 0%, #040c1e 100%);
+  border-top: 2px solid #143575;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.wp-pbar-btn {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
+  border: 2px solid #3b82f6;
+  border-radius: 4px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.wp-pbar-btn:hover:not(:disabled) {
+  filter: brightness(1.2);
+}
+
+.wp-pbar-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wp-pbar-icon-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.1s;
+}
+
+.wp-pbar-icon-btn:hover {
+  color: #38bdf8;
+}
+
+.wp-vol-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wp-vol-slider {
+  width: 60px;
+  height: 4px;
+  accent-color: #38bdf8;
+  cursor: pointer;
+}
+
+.wp-time-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #38bdf8;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.wp-scrubber-track {
+  flex: 1;
+  height: 8px;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.wp-scrubber-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #38bdf8);
+  border-radius: 3px;
+  transition: width 0.1s linear;
+}
+
+.wp-scrubber-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  border: 2px solid #38bdf8;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.8);
+}
+
+.wp-pbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+/* ── Right Column: Accordion Sidebar (Only one section open at a time) ── */
+.wp-sidebar-column {
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.wp-card {
+  flex: 0 0 auto;
+  background: rgba(9, 23, 56, 0.95);
+  border: 2px solid #17428f;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: flex 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wp-card--active {
+  flex: 1 1 0%;
+  min-height: 0;
+  border-color: #3b82f6;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.25);
+}
+
+.wp-card-hdr {
+  background: linear-gradient(180deg, #0f2757 0%, #0a1b3d 100%);
+  border-bottom: 2px solid #143575;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.wp-card-hdr--clickable {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.wp-card-hdr--clickable:hover {
+  background: linear-gradient(180deg, #15387a 0%, #0d2554 100%);
+}
+
+.wp-card-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #38bdf8;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wp-hdr-right-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wp-hdr-arrow {
+  font-size: 10px;
+  color: #64748b;
+  transition: transform 0.15s;
+}
+
+/* Scrollable Accordion Bodies */
+.wp-card-body--scrollable {
+  flex: 1 1 0%;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wp-card-body--scrollable::-webkit-scrollbar,
+.wp-chat-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.wp-card-body--scrollable::-webkit-scrollbar-track,
+.wp-chat-scroll::-webkit-scrollbar-track {
+  background: rgba(3, 10, 28, 0.5);
+  border-radius: 3px;
+}
+
+.wp-card-body--scrollable::-webkit-scrollbar-thumb,
+.wp-chat-scroll::-webkit-scrollbar-thumb {
+  background: #1e40af;
+  border-radius: 3px;
+}
+
+.wp-card-body--scrollable::-webkit-scrollbar-thumb:hover,
+.wp-chat-scroll::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
+}
+
+.wp-pill-btn-blue {
+  padding: 3px 8px;
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  border: 1px solid #60a5fa;
+  border-radius: 3px;
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  cursor: pointer;
+}
+
+.wp-pill-btn-blue:hover {
+  filter: brightness(1.2);
+}
+
+/* Participants Section */
+.wp-role-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #f59e0b;
+  letter-spacing: 0.06em;
+  padding: 2px 4px;
+}
+
+.wp-user-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  background: #0a1b3d;
+  border: 1px solid #143575;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.wp-user-row--host {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.wp-user-avatar-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  background: #0f172a;
+  border: 2px solid #38bdf8;
+  flex-shrink: 0;
+}
+
+.wp-user-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transform: scale(2.4) translateY(6px);
+}
+
+.wp-user-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.wp-avatar-online-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 4px #22c55e;
+}
+
+.wp-user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.wp-user-name {
+  font-weight: 700;
+  font-size: 13px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.wp-role-badge-gold {
+  padding: 2px 6px;
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+  border: 1px solid #fbbf24;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 0 #000;
+  white-space: nowrap;
+}
+
+.wp-role-badge-purple {
+  padding: 2px 6px;
+  background: #9333ea;
+  border: 1px solid #c084fc;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  white-space: nowrap;
+}
+
+.wp-role-badge-gray {
+  padding: 2px 6px;
+  background: #334155;
+  border: 1px solid #64748b;
+  border-radius: 4px;
+  color: #94a3b8;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  white-space: nowrap;
+}
+
+.wp-user-more-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.wp-user-more-btn:hover {
+  color: #ffffff;
+}
+
+.wp-solo-hint {
+  padding: 12px;
+  background: rgba(10, 27, 61, 0.5);
+  border: 1px dashed #1d4ed8;
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.wp-solo-hint strong {
+  color: #38bdf8;
+}
+
+/* ── Host Controls Card ── */
+.wp-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.wp-ctrl-tile {
+  background: linear-gradient(180deg, #0f2757 0%, #091a40 100%);
+  border: 1px solid #1d4ed8;
+  border-radius: 6px;
+  padding: 10px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  color: #ffffff;
+}
+
+.wp-ctrl-tile:hover {
+  background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+.wp-ctrl-tile-icon {
+  font-size: 16px;
+  color: #38bdf8;
+}
+
+.wp-ctrl-tile-text {
+  font-size: 9px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.wp-viewer-ctrl-box {
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.wp-viewer-ctrl-text {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+/* ── Chat Card ── */
+.wp-chat-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+  min-height: 0;
+  height: 100%;
+}
+
+.wp-chat-scroll {
+  flex: 1 1 0%;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+
+.wp-chat-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  gap: 4px;
+  color: #64748b;
+  margin: auto;
+}
+
+.wp-chat-empty-icon {
+  font-size: 24px;
+  opacity: 0.6;
+}
+
+.wp-chat-empty-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.wp-chat-empty-sub {
+  font-size: 10px;
+}
+
+.wp-chat-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: rgba(15, 39, 87, 0.6);
+  border: 1px solid rgba(29, 78, 216, 0.3);
+  border-radius: 4px;
+  padding: 5px 8px;
+}
+
+.wp-chat-msg--system {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.3);
+  text-align: center;
+}
+
+.wp-chat-system-text {
+  font-size: 10px;
+  color: #38bdf8;
+  font-style: italic;
+}
+
+.wp-chat-msg-hdr {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wp-chat-msg-user {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.wp-badge-chat-host {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.2);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.wp-badge-chat-mod {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  color: #c084fc;
+  background: rgba(147, 51, 234, 0.2);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.wp-chat-msg-time {
+  font-size: 9px;
+  color: #64748b;
+  margin-left: auto;
+}
+
+.wp-chat-msg-bubble {
+  font-size: 12px;
+  color: #e2e8f0;
+  word-break: break-word;
+}
+
+.wp-emoji-popup {
+  display: flex;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #0f2757;
+  border-top: 1px solid #1d4ed8;
+  overflow-x: auto;
+}
+
+.wp-emoji-pop-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.wp-emoji-pop-btn:hover {
+  transform: scale(1.3);
+}
+
+/* Chat Input Bar */
+.wp-chat-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: #061129;
+  border-top: 1px solid #143575;
+}
+
+.wp-chat-input-field {
+  flex: 1;
+  background: #0a1b3d;
+  border: 1px solid #1d4ed8;
+  border-radius: 4px;
+  padding: 6px 10px;
+  color: #ffffff;
+  font-size: 12px;
+  outline: none;
+}
+
+.wp-chat-input-field:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+.wp-chat-emoji-trigger {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.wp-btn-send {
+  padding: 6px 14px;
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+  border: 1px solid #38bdf8;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: filter 0.1s;
+}
+
+.wp-btn-send:hover {
+  filter: brightness(1.2);
+}
+
+/* ── Modals & Popups ── */
+.wp-modal-box {
+  width: 90%;
+  max-width: 520px;
+  background: #081328;
+  border: 3px solid #0050c0;
+  box-shadow: 0 0 0 1px #38bdf8, 0 15px 50px rgba(0, 0, 0, 0.85);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.wp-modal-body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.wp-modal-hero {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 6px;
+}
+
+.wp-modal-hero-icon {
+  font-size: 26px;
+}
+
+.wp-modal-hero-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #38bdf8;
+  margin-bottom: 3px;
+}
+
+.wp-modal-hero-sub {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.wp-presets-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wp-presets-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #f59e0b;
+}
+
+.wp-presets-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.wp-preset-pill {
+  padding: 4px 10px;
+  background: #0f2757;
+  border: 1px solid #1d4ed8;
+  border-radius: 4px;
+  color: #e2e8f0;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.wp-preset-pill:hover {
+  background: #1d4ed8;
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+.wp-invite-hero-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #38bdf8;
+  margin-bottom: 6px;
+}
+
+.wp-invite-code-card {
+  padding: 20px;
+  background: #030a1c;
+  border: 2px dashed #1d4ed8;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.wp-invite-code-sub {
+  font-size: 9px;
+  color: #64748b;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.wp-invite-code-big {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 28px;
+  color: #38bdf8;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
+}
+
+.wp-settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #0a1b3d;
+  border: 1px solid #143575;
+  border-radius: 4px;
+}
+
+.wp-settings-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.wp-settings-val {
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.wp-manage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.wp-manage-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #0a1b3d;
+  border: 1px solid #143575;
+  border-radius: 6px;
+}
+
+.wp-manage-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.wp-manage-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.wp-btn-pill-blue,
+.wp-btn-pill-gray,
+.wp-btn-pill-gold,
+.wp-btn-pill-red,
+.wp-btn-pill-green {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid;
+}
+
+.wp-btn-pill-blue {
+  background: #1d4ed8;
+  border-color: #3b82f6;
+  color: #fff;
+}
+
+.wp-btn-pill-gray {
+  background: #334155;
+  border-color: #64748b;
+  color: #cbd5e1;
+}
+
+.wp-btn-pill-gold {
+  background: #d97706;
+  border-color: #f59e0b;
+  color: #fff;
+}
+
+.wp-btn-pill-red {
+  background: #b91c1c;
+  border-color: #ef4444;
+  color: #fff;
+}
+
+.wp-btn-pill-green {
+  background: #15803d;
+  border-color: #22c55e;
+  color: #fff;
+}
+
+/* Kicked Overlay */
+.wp-kicked-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wp-kicked-box {
+  width: 90%;
+  max-width: 440px;
+  background: #081226;
+  border: 3px solid #ef4444;
+  border-radius: 8px;
+  padding: 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.wp-kicked-icon {
+  font-size: 40px;
+}
+
+.wp-kicked-box h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: #ef4444;
+}
+
+.wp-kicked-box p {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+/* Floating Reactions */
+.wp-reactions-layer {
+  position: fixed;
+  bottom: 80px;
+  right: 360px;
+  pointer-events: none;
+  z-index: 550;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wp-reaction-float {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #38bdf8;
+  border-radius: 20px;
+  padding: 4px 10px;
+  animation: wpFloatUp 2.8s ease-out forwards;
+}
+
+.wp-reaction-emoji {
+  font-size: 20px;
+}
+
+.wp-reaction-user {
+  font-size: 11px;
+  font-weight: bold;
+  color: #38bdf8;
+}
+
+@keyframes wpFloatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.7);
+  }
+
+  15% {
+    opacity: 1;
+    transform: translateY(0) scale(1.1);
+  }
+
+  30% {
+    transform: scale(1);
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-70px);
+  }
+}
+
+/* Request Toasts */
+.wp-req-toasts {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 560;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wp-req-toast {
+  background: #091a40;
+  border: 2px solid #f59e0b;
+  border-radius: 6px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+}
+
+.wp-req-toast-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WATCH ROOM 3D — first-person 3D room UI styles
+   All classes prefixed wr3d- to avoid collision
+══════════════════════════════════════════════════════════════════ */
+
+/* Root: full viewport, position:relative so canvas + overlays stack */
+.wr3d-root {
+  position: fixed;
+  inset: 0;
+  background: #010101;
+  font-family: 'Press Start 2P', monospace;
+  overflow: hidden;
+  z-index: 400;
+}
+
+/* Canvas fills everything */
+.wr3d-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   WATCH ROOM 3D — CINEMATIC FLOATING MINIMAL INTERFACE
+══════════════════════════════════════════════════════════════════ */
+
+/* Root: full viewport, position:relative so canvas + overlays stack */
+.wr3d-root {
+  position: fixed;
+  inset: 0;
+  background: #010101;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  z-index: 400;
+  perspective: 1200px;
+}
+
+/* Canvas fills everything */
+.wr3d-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Modern Monochromatic Loading Screen (Black & White Minimalist) ── */
+.wr3d-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  user-select: none;
+}
+
+.wr3d-loading-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.wr3d-loading-spinner {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-top-color: #ffffff;
+  animation: wr3d-spin 0.8s linear infinite;
+  margin-bottom: 4px;
+}
+
+@keyframes wr3d-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.wr3d-loading-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
+}
+
+.wr3d-bar-track {
+  width: 240px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.wr3d-bar-fill {
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wr3d-loading-pct {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.15em;
+  font-variant-numeric: tabular-nums;
+  margin-top: -4px;
+}
+
+.wr3d-loading-err {
+  font-size: 12px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 4px;
+  max-width: 300px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ── 3 Independent Floating Controls ── */
+.wr3d-floating-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 50;
+  pointer-events: auto;
+}
+
+.wr3d-float-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  padding: 0;
+  font-size: 14px;
+}
+
+.wr3d-float-btn:hover {
+  background: rgba(0, 0, 0, 0.85);
+  border-color: rgba(0, 240, 255, 0.6);
+  color: #00f0ff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 240, 255, 0.25);
+}
+
+.wr3d-float-btn--leave:hover {
+  border-color: rgba(239, 68, 68, 0.6);
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.2);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.25);
+}
+
+.wr3d-tooltip {
+  position: absolute;
+  background: rgba(15, 23, 42, 0.95);
+  color: #f1f5f9;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+  z-index: 100;
+}
+
+/* Floating controls (top-left): tooltip appears below */
+.wr3d-floating-controls .wr3d-float-btn .wr3d-tooltip {
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+.wr3d-floating-controls .wr3d-float-btn:hover .wr3d-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+@keyframes wr3d-fade-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ── Right-Side Transparent Panel ── */
+.wr3d-side-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 22px 22px 22px;
+  z-index: 40;
+  pointer-events: auto;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-left: none;
+  box-sizing: border-box;
+}
+
+/* ── Section Header ── */
+.wr3d-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 12px;
+}
+
+.wr3d-section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wr3d-section-icon {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.wr3d-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.wr3d-count-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* ── Participants Section ── */
+.wr3d-participants-area {
+  margin-bottom: 22px;
+  flex-shrink: 0;
+}
+
+.wr3d-participants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-right: 2px;
+}
+
+.wr3d-participants-list::-webkit-scrollbar {
+  display: none;
+}
+
+.wr3d-participant-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  min-height: 48px;
+  border-radius: 10px;
+  transition: background 0.15s ease;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.wr3d-participant-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.wr3d-p-avatar {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.wr3d-online-indicator {
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 1.5px solid #0e0e12;
+}
+
+.wr3d-p-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  font-weight: 500;
+  color: #f1f5f9;
+}
+
+/* Role Pills */
+.wr3d-role-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.wr3d-role-icon {
+  font-size: 9px;
+}
+
+.wr3d-role-pill--host {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.wr3d-role-pill--mod {
+  background: rgba(168, 85, 247, 0.12);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.wr3d-role-pill--part {
+  background: rgba(148, 163, 184, 0.08);
+  color: #64748b;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+/* Action Popover for Host */
+.wr3d-p-actions-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.wr3d-p-action-trigger {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: all 0.15s ease;
+}
+
+.wr3d-p-action-trigger:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+}
+
+.wr3d-action-popover {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 60;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+  min-width: 145px;
+}
+
+.wr3d-popover-item {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: left;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.12s ease;
+}
+
+.wr3d-popover-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f1f5f9;
+}
+
+.wr3d-popover-icon {
+  font-size: 11px;
+}
+
+.wr3d-popover-item--danger {
+  color: #f87171;
+}
+
+.wr3d-popover-item--danger:hover {
+  background: rgba(239, 68, 68, 0.16);
+  color: #f87171;
+}
+
+.wr3d-req-ctrl-modern {
+  background: rgba(14, 165, 233, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.wr3d-req-ctrl-modern:hover {
+  background: rgba(56, 189, 248, 0.22);
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+.wr3d-req-icon {
+  font-size: 11px;
+}
+
+/* ── Chat Section ── */
+.wr3d-chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
+}
+
+.wr3d-chat-stream {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 2px 10px 0;
+}
+
+.wr3d-chat-stream::-webkit-scrollbar {
+  display: none;
+}
+
+.wr3d-chat-empty {
+  text-align: center;
+  color: #64748b;
+  font-size: 12px;
+  padding: 32px 12px;
+  line-height: 1.5;
+}
+
+.wr3d-msg-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.wr3d-sys-msg {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #94a3b8;
+  font-style: italic;
+  padding: 2px 4px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.wr3d-sys-dot {
+  font-size: 5px;
+  color: #64748b;
+}
+
+.wr3d-msg-card {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 2px 4px;
+}
+
+.wr3d-msg-avatar {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+  margin-top: 1px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.wr3d-msg-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.wr3d-msg-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.wr3d-msg-sender {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e2e8f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.wr3d-msg-sender--host {
+  color: #fbbf24;
+}
+
+.wr3d-msg-sender--mod {
+  color: #c084fc;
+}
+
+.wr3d-meta-role-icon {
+  font-size: 9px;
+}
+
+.wr3d-meta-role-icon--host {
+  color: #fbbf24;
+}
+
+.wr3d-meta-role-icon--mod {
+  color: #c084fc;
+}
+
+.wr3d-msg-time {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-left: auto;
+  flex-shrink: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.wr3d-msg-text {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #f1f5f9;
+  word-break: break-word;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
+}
+
+/* Floating Return-to-bottom Indicator */
+.wr3d-unread-pill {
+  position: absolute;
+  bottom: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: #18181b;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 9999px;
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+  transition: all 0.15s ease;
+}
+
+.wr3d-unread-pill:hover {
+  background: #27272a;
+  border-color: #38bdf8;
+}
+
+/* Quick Reactions Tray */
+.wr3d-reactions-tray {
+  position: absolute;
+  bottom: 58px;
+  left: 0;
+  right: 0;
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 10px 12px;
+  z-index: 30;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+}
+
+.wr3d-tray-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.wr3d-tray-icon {
+  font-size: 11px;
+  color: #38bdf8;
+}
+
+.wr3d-tray-emojis {
+  display: flex;
+  gap: 6px;
+  justify-content: space-between;
+}
+
+.wr3d-tray-emoji-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.wr3d-tray-emoji-btn:hover {
+  transform: scale(1.25);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ── MODERN CHAT COMPOSER (EXACT REPLICA OF USER REFERENCE IMAGE) ── */
+.wr3d-composer-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 8px;
+  width: 100%;
+}
+
+/* Circular Plus Button on the Left */
+.wr3d-composer-plus-btn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: #1c1c20;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, color 0.15s ease;
+  outline: none;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wr3d-composer-plus-btn:hover {
+  background: #27272e;
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  transform: scale(1.04);
+}
+
+.wr3d-composer-plus-btn:active {
+  transform: scale(0.96);
+}
+
+.wr3d-composer-plus-icon {
+  font-size: 16px;
+}
+
+/* Wide Rounded Pill Container on the Right */
+.wr3d-composer-pill {
+  flex: 1;
+  height: 44px;
+  background: #0d0d10;
+  border: 1.5px solid #27272a;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 18px;
+  gap: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.wr3d-composer-pill:focus-within {
+  border-color: #3f3f46;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+  background: #121216;
+}
+
+/* Inner Text Input */
+.wr3d-composer-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #f4f4f5;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 400;
+  padding: 0;
+  min-width: 0;
+}
+
+.wr3d-composer-input::placeholder {
+  color: #71717a;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* Send Button inside Pill */
+.wr3d-composer-send-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #71717a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: not-allowed;
+  transition: color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.wr3d-composer-send-btn--active {
+  color: #d1d5db;
+  cursor: pointer;
+}
+
+.wr3d-composer-send-btn--active:hover {
+  color: #38bdf8;
+  transform: scale(1.1);
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.wr3d-composer-send-icon {
+  font-size: 15px;
+}
+
+/* ── Floating reactions ── */
+.wr3d-reactions {
+  position: absolute;
+  left: 20px;
+  bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.wr3d-react-pop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: wr3d-react-fly 3s ease-out forwards;
+}
+
+.wr3d-react-emoji {
+  font-size: 2rem;
+}
+
+.wr3d-react-user {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+@keyframes wr3d-react-fly {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+}
+
+/* ── Control request toasts ── */
+.wr3d-ctrl-toasts {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wr3d-ctrl-toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
+  padding: 8px 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  color: #e2e8f0;
+  backdrop-filter: blur(8px);
+}
+
+.wr3d-tap-approve {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid #10b981;
+  color: #6ee7b7;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.wr3d-tap-deny {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* ── 3D Television Container (Embedded in 3D Space via CSS3DRenderer) ── */
+.wr3d-css3d-tv {
+  width: 1280px;
+  height: 720px;
+  background: #000000;
+  position: relative;
+  overflow: hidden;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  pointer-events: none !important;
+}
+
+/* YouTube Iframe Container: 100% fills the inner screen with zero borders */
+.wr3d-yt-player-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.wr3d-yt-player-container iframe,
+#wr3d-yt-player {
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block;
+}
+
+/* 2D Projected TV Screen Overlay — Native 2D DOM on TV with full click/type support */
+.wr3d-tv-projected-overlay {
+  position: absolute;
+  z-index: 35;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto !important;
+  user-select: text !important;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+}
+
+.wr3d-tv-projected-overlay .wr3d-tv-input-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  inset: auto;
+}
+
+/* TV Empty State / URL Input Card (Clean, borderless inside TV screen) */
+.wr3d-tv-input-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+  padding: 40px 60px;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 5;
+  border: none !important;
+  box-shadow: none !important;
+  pointer-events: auto !important;
+}
+
+.wr3d-tv-input-header {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+
+.wr3d-tv-badge {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  padding: 5px 14px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.wr3d-tv-input-title {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0;
+  text-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+}
+
+.wr3d-tv-input-desc {
+  font-size: 15px;
+  color: #94a3b8;
+  margin: 0;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.wr3d-tv-form {
+  width: 100%;
+  max-width: 580px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+  pointer-events: auto !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+.wr3d-tv-input-row {
+  width: 100%;
+  pointer-events: auto !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+.wr3d-tv-input {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1.5px solid rgba(56, 189, 248, 0.35);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 16px;
+  color: #f8fafc;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  pointer-events: auto !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  cursor: text !important;
+}
+
+.wr3d-tv-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+  background: rgba(15, 23, 42, 1);
+}
+
+.wr3d-tv-input::placeholder {
+  color: rgba(148, 163, 184, 0.6);
+  user-select: none;
+}
+
+.wr3d-tv-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  pointer-events: auto !important;
+}
+
+.wr3d-tv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 13px 28px;
+  cursor: pointer !important;
+  transition: all 0.18s ease;
+  text-transform: uppercase;
+  pointer-events: auto !important;
+  user-select: none !important;
+}
+
+.wr3d-tv-btn--primary {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.35);
+  flex: 1;
+}
+
+.wr3d-tv-btn--primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  box-shadow: 0 0 18px rgba(14, 165, 233, 0.5);
+  transform: translateY(-1px);
+}
+
+.wr3d-tv-btn--primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  transform: none;
+}
+
+.wr3d-tv-btn--cancel {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #cbd5e1;
+}
+
+.wr3d-tv-btn--cancel:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+.wr3d-tv-error {
+  color: #f87171;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 4px;
+  line-height: 1.3;
+}
+
+.wr3d-tv-waiting-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.wr3d-tv-waiting-pulse {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 14px #38bdf8;
+  animation: wr3dPulse 1.8s infinite;
+}
+
+@keyframes wr3dPulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.wr3d-tv-waiting-text {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+}
+
+/* ── Bottom-Left Controls (Change Video Floating Button) ── */
+.wr3d-bottom-left-controls {
+  position: absolute;
+  bottom: 28px;
+  left: 28px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+/* Tooltip for bottom-left: pops up ABOVE the button safely inside viewport */
+.wr3d-bottom-left-controls .wr3d-float-btn .wr3d-tooltip {
+  bottom: calc(100% + 8px);
+  top: auto;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+}
+
+.wr3d-bottom-left-controls .wr3d-float-btn:hover .wr3d-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Full Application Fullscreen Support ── */
+.wr3d-root:fullscreen,
+.wr3d-root:-webkit-full-screen,
+.wr3d-fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #000000 !important;
+  z-index: 999999 !important;
+}
+
+/* ── TV Standby Screen ── */
+.wr3d-tv-standby {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  gap: 14px;
+  pointer-events: none;
+  user-select: none;
+}
+.wr3d-tv-standby-text {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-shadow: 0 0 24px rgba(0, 240, 255, 0.4), 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+.wr3d-tv-standby-sub {
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+}
+
+/* ── Add Video Popup (Bottom-Left, above Add Video button) ── */
+.wr3d-add-video-popup {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 0;
+  width: 320px;
+  background: rgba(13, 13, 18, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 14px;
+  padding: 14px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+  z-index: 80;
+  pointer-events: auto;
+}
+.wr3d-avp-underline-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1.5px solid rgba(255,255,255,0.15);
+  padding-bottom: 6px;
+}
+.wr3d-avp-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #f4f4f5;
+  font-size: 14px;
+  font-family: inherit;
+  padding: 2px 0;
+  caret-color: #38bdf8;
+}
+.wr3d-avp-input::placeholder {
+  color: #52525b;
+}
+.wr3d-avp-error {
+  font-size: 12px;
+  color: #f87171;
+  font-weight: 500;
+}
+.wr3d-avp-load-btn {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  border: 1px solid rgba(56,189,248,0.35);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+.wr3d-avp-load-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  box-shadow: 0 0 14px rgba(14,165,233,0.5);
+  transform: translateY(-1px);
+}
+.wr3d-avp-load-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Playback Bar (Bottom-Center) ── */
+.wr3d-playback-bar {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(10, 10, 14, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 40px;
+  padding: 8px 18px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.65);
+  pointer-events: auto;
+  min-width: 360px;
+  max-width: 680px;
+}
+.wr3d-pb-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+.wr3d-pb-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  transform: scale(1.08);
+}
+.wr3d-pb-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.wr3d-pb-time {
+  font-size: 12px;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  min-width: 38px;
+  text-align: center;
+}
+.wr3d-pb-seek {
+  flex: 1;
+  height: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(255,255,255,0.15);
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  accent-color: #38bdf8;
+  min-width: 80px;
+}
+.wr3d-pb-seek:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.wr3d-pb-volume {
+  width: 72px;
+  height: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(255,255,255,0.15);
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  accent-color: #38bdf8;
+  flex-shrink: 0;
+}
+
+/* ─── WATCHLY MINIMALIST BLACK PRELOADER & START SCREEN ─────────── */
+.watchly-preloader-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  user-select: none;
+}
+
+.watchly-preloader-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.watchly-preloader-text {
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(12px, 1.5vw, 15px);
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.watchly-preloader-track {
+  width: clamp(240px, 30vw, 320px);
+  height: 10px;
+  background: #111114;
+  border: 2px solid #333338;
+  border-radius: 4px;
+  margin-top: 16px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.watchly-preloader-bar {
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  transition: width 0.15s ease-out;
+}
+
+/* Black Start Screen */
+.watchly-black-start-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99990;
+  user-select: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.watchly-start-fade-in {
+  animation: watchly-fade-in 0.5s ease-out forwards;
+}
+
+.watchly-start-fade-out {
+  animation: watchly-fade-out 0.45s ease-in forwards;
+}
+
+@keyframes watchly-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes watchly-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.watchly-black-start-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-3.5vh);
+  max-width: 90vw;
+  text-align: center;
+}
+
+.watchly-start-logo-wrap {
+  margin-bottom: clamp(32px, 5.5vh, 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.watchly-start-main-logo {
+  width: clamp(300px, 50vw, 680px);
+  max-width: 90vw;
+  height: auto;
+  image-rendering: auto;
+  user-select: none;
+  pointer-events: none;
+  animation: watchly-logo-float-glow 3.8s ease-in-out infinite;
+  will-change: transform, filter;
+}
+
+@keyframes watchly-logo-float-glow {
+  0%, 100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.85))
+            drop-shadow(0 0 14px rgba(56, 189, 248, 0.20));
+  }
+  50% {
+    transform: translateY(-6px);
+    filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.90))
+            drop-shadow(0 0 24px rgba(56, 189, 248, 0.40));
+  }
+}
+
+/* 'Press / Touch any key to start' button matching the attached reference */
+.watchly-press-start-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(11px, 1.35vw, 15px);
+  color: #f1f1f5;
+  background: rgba(18, 18, 22, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 6px;
+  padding: clamp(12px, 1.8vh, 16px) clamp(24px, 4vw, 44px);
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  outline: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: watchly-pulse-btn 2.6s ease-in-out infinite;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.2s ease,
+              color 0.2s ease;
+}
+
+.watchly-press-start-btn:hover {
+  animation: none;
+  opacity: 1;
+  color: #ffffff;
+  background: rgba(28, 28, 34, 0.95);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.85),
+    0 0 20px rgba(255, 255, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.watchly-press-start-btn:active {
+  transform: translateY(1px) scale(0.99);
+  background: rgba(14, 14, 18, 0.95);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes watchly-pulse-btn {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(0.99);
+  }
+}

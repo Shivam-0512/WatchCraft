@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: watchcraft-backend
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false   # Set this manually in Render dashboard
+      - key: CLIENT_URL
+        sync: false   # Set to your Netlify/Vercel frontend URL
+      - key: PORT
+        value: 10000
