@@ -403,12 +403,14 @@ export default function WatchRoom3D({
     tvEl.className = 'wr3d-css3d-tv';
     tvEl.style.width = '1280px';
     tvEl.style.height = '720px';
-    tvEl.style.position = 'relative';
+    tvEl.style.position = 'absolute';
+    tvEl.style.top = '0';
+    tvEl.style.left = '0';
     tvEl.style.overflow = 'hidden';
     tvEl.style.background = '#000000';
     tvEl.style.pointerEvents = 'none';
 
-    // Native YouTube player container (completely unmanaged by React VDOM reconciliation to prevent iframe destruction)
+    // Native YouTube player container (continuously mounted with 1280x720 layout to preserve hardware video surface)
     const ytContainer = document.createElement('div');
     ytContainer.id = 'wr3d-yt-player-container';
     ytContainer.className = 'wr3d-yt-player-container';
@@ -419,9 +421,9 @@ export default function WatchRoom3D({
     ytContainer.style.height = '720px';
     ytContainer.style.background = '#000000';
     ytContainer.style.overflow = 'hidden';
-    ytContainer.style.display = 'none';
+    ytContainer.style.zIndex = '1';
 
-    // Native YouTube player iframe with explicit production permissions (matching watchparty reference pattern)
+    // Native YouTube player iframe with explicit production permissions and wmode=opaque (matching watchparty reference pattern)
     const ytIframe = document.createElement('iframe');
     ytIframe.id = 'wr3d-yt-player';
     ytIframe.title = 'WatchCraft YouTube TV';
@@ -436,7 +438,7 @@ export default function WatchRoom3D({
     ytIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
     ytIframe.setAttribute('allowfullscreen', 'true');
     ytIframe.setAttribute('frameborder', '0');
-    ytIframe.src = `https://www.youtube.com/embed/?enablejsapi=1&autoplay=1&controls=0&rel=0&playsinline=1&origin=${encodeURIComponent(window.location.origin)}`;
+    ytIframe.src = `https://www.youtube.com/embed/?enablejsapi=1&autoplay=1&controls=0&rel=0&playsinline=1&wmode=opaque&origin=${encodeURIComponent(window.location.origin)}&widget_referrer=${encodeURIComponent(window.location.origin)}`;
     ytContainer.appendChild(ytIframe);
 
     const standbyEl = document.createElement('div');
@@ -652,16 +654,22 @@ export default function WatchRoom3D({
     const standbyEl = document.getElementById('wr3d-tv-standby');
 
     if (!videoId) {
-      if (ytContainer) ytContainer.style.display = 'none';
-      if (standbyEl) standbyEl.style.display = 'flex';
+      if (ytContainer) ytContainer.style.zIndex = '1';
+      if (standbyEl) {
+        standbyEl.style.display = 'flex';
+        standbyEl.style.zIndex = '10';
+      }
       if (ytPlayerRef.current && typeof ytPlayerRef.current.stopVideo === 'function') {
         try { ytPlayerRef.current.stopVideo(); } catch (e) {}
       }
       return;
     }
 
-    if (ytContainer) ytContainer.style.display = 'block';
-    if (standbyEl) standbyEl.style.display = 'none';
+    if (ytContainer) ytContainer.style.zIndex = '10';
+    if (standbyEl) {
+      standbyEl.style.display = 'none';
+      standbyEl.style.zIndex = '1';
+    }
 
     // If player already exists, load the new video without re-creating iframe or resetting player
     if (ytPlayerRef.current && typeof ytPlayerRef.current.loadVideoById === 'function') {

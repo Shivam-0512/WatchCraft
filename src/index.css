@@ -7351,6 +7351,7 @@ body,
   gap: 14px;
   pointer-events: none;
   user-select: none;
+  z-index: 10;
 }
 .wr3d-tv-standby-text {
   font-size: 38px;
@@ -7721,7 +7722,9 @@ div[class*="netlify-feedback"],
 .wr3d-css3d-tv {
   width: 1280px !important;
   height: 720px !important;
-  position: relative !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
   overflow: hidden !important;
   background: #000000 !important;
 }
