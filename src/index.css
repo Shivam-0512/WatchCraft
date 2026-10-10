@@ -2308,6 +2308,7 @@ body,
   padding-top: 16px;
   border-top: 2px solid #a3a3a3;
 }
+
 /* ── RESUME VIEWER OVERLAY ──────────────────────────────── */
 .rv-overlay {
   position: fixed;
@@ -7284,8 +7285,17 @@ body,
 }
 
 @keyframes wr3dPulse {
-  0%, 100% { opacity: 0.3; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.2); }
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
 .wr3d-tv-waiting-text {
@@ -7354,6 +7364,7 @@ body,
   user-select: none;
   z-index: 10;
 }
+
 .wr3d-tv-standby-text {
   font-size: 38px;
   font-weight: 800;
@@ -7362,6 +7373,7 @@ body,
   text-transform: uppercase;
   text-shadow: 0 0 24px rgba(0, 240, 255, 0.4), 0 2px 8px rgba(0, 0, 0, 0.8);
 }
+
 .wr3d-tv-standby-sub {
   font-size: 18px;
   font-weight: 500;
@@ -7379,22 +7391,24 @@ body,
   background: rgba(13, 13, 18, 0.92);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,255,255,0.10);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 14px;
   padding: 14px 16px 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
   z-index: 80;
   pointer-events: auto;
 }
+
 .wr3d-avp-underline-row {
   display: flex;
   align-items: center;
-  border-bottom: 1.5px solid rgba(255,255,255,0.15);
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.15);
   padding-bottom: 6px;
 }
+
 .wr3d-avp-input {
   flex: 1;
   background: transparent;
@@ -7406,18 +7420,21 @@ body,
   padding: 2px 0;
   caret-color: #38bdf8;
 }
+
 .wr3d-avp-input::placeholder {
   color: #52525b;
 }
+
 .wr3d-avp-error {
   font-size: 12px;
   color: #f87171;
   font-weight: 500;
 }
+
 .wr3d-avp-load-btn {
   align-self: flex-end;
   background: linear-gradient(135deg, #0284c7, #0369a1);
-  border: 1px solid rgba(56,189,248,0.35);
+  border: 1px solid rgba(56, 189, 248, 0.35);
   color: #fff;
   font-size: 12px;
   font-weight: 700;
@@ -7428,11 +7445,13 @@ body,
   cursor: pointer;
   transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
 }
+
 .wr3d-avp-load-btn:hover:not(:disabled) {
   background: linear-gradient(135deg, #0ea5e9, #0284c7);
-  box-shadow: 0 0 14px rgba(14,165,233,0.5);
+  box-shadow: 0 0 14px rgba(14, 165, 233, 0.5);
   transform: translateY(-1px);
 }
+
 .wr3d-avp-load-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
@@ -7451,20 +7470,21 @@ body,
   background: rgba(10, 10, 14, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.09);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 40px;
   padding: 8px 18px;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.65);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.65);
   pointer-events: auto;
   min-width: 360px;
   max-width: 680px;
 }
+
 .wr3d-pb-btn {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   color: #e2e8f0;
   display: flex;
   align-items: center;
@@ -7474,15 +7494,18 @@ body,
   flex-shrink: 0;
   transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
 }
+
 .wr3d-pb-btn:hover:not(:disabled) {
-  background: rgba(255,255,255,0.14);
+  background: rgba(255, 255, 255, 0.14);
   color: #fff;
   transform: scale(1.08);
 }
+
 .wr3d-pb-btn:disabled {
   opacity: 0.35;
   cursor: not-allowed;
 }
+
 .wr3d-pb-time {
   font-size: 12px;
   color: #94a3b8;
@@ -7491,28 +7514,31 @@ body,
   min-width: 38px;
   text-align: center;
 }
+
 .wr3d-pb-seek {
   flex: 1;
   height: 4px;
   appearance: none;
   -webkit-appearance: none;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 999px;
   outline: none;
   cursor: pointer;
   accent-color: #38bdf8;
   min-width: 80px;
 }
+
 .wr3d-pb-seek:disabled {
   opacity: 0.35;
   cursor: not-allowed;
 }
+
 .wr3d-pb-volume {
   width: 72px;
   height: 4px;
   appearance: none;
   -webkit-appearance: none;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 999px;
   outline: none;
   cursor: pointer;
@@ -7592,13 +7618,23 @@ body,
 }
 
 @keyframes watchly-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes watchly-fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 
 .watchly-black-start-content {
@@ -7630,15 +7666,16 @@ body,
 }
 
 @keyframes watchly-logo-float-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
-    filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.85))
-            drop-shadow(0 0 14px rgba(56, 189, 248, 0.20));
+    filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 14px rgba(56, 189, 248, 0.20));
   }
+
   50% {
     transform: translateY(-6px);
-    filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.90))
-            drop-shadow(0 0 24px rgba(56, 189, 248, 0.40));
+    filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.90)) drop-shadow(0 0 24px rgba(56, 189, 248, 0.40));
   }
 }
 
@@ -7662,10 +7699,10 @@ body,
   -webkit-backdrop-filter: blur(8px);
   animation: watchly-pulse-btn 2.6s ease-in-out infinite;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              background 0.2s ease,
-              border-color 0.2s ease,
-              box-shadow 0.2s ease,
-              color 0.2s ease;
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
 }
 
 .watchly-press-start-btn:hover {
@@ -7688,10 +7725,13 @@ body,
 }
 
 @keyframes watchly-pulse-btn {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.65;
     transform: scale(0.99);
@@ -7706,8 +7746,8 @@ netlify-drawer,
 #netlify-drawer,
 .netlify-drawer,
 div[class*="netlify-drawer"],
-iframe[id*="netlify"],
-iframe[src*="netlify"],
+div[class*="netlify-drawer"],
+div[class*="netlify-feedback"],
 div[class*="netlify-feedback"],
 .netlify-badge {
   display: none !important;
