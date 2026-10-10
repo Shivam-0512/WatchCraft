@@ -35,7 +35,9 @@ import {
   faPlay,
   faPause,
   faVolumeHigh,
-  faVolumeXmark
+  faVolumeXmark,
+  faCommentDots,
+  faXmark
 } from '@fortawesome/free-solid-svg-icons';
 import { getSocket, getPersistentUserId } from './socket';
 import { playClick } from './sounds';
@@ -222,6 +224,7 @@ export default function WatchRoom3D({
   const [emojiOpen,          setEmojiOpen]          = useState(false);
   const [selectedUserAction, setSelectedUserAction] = useState(null);
   const [hasUnreadBelow,     setHasUnreadBelow]     = useState(false);
+  const [mobileChatOpen,     setMobileChatOpen]     = useState(false);
 
   const chatEndRef          = useRef(null);
   const chatScrollRef       = useRef(null);
@@ -586,19 +589,24 @@ export default function WatchRoom3D({
     const ctx = e => e.preventDefault();
 
     // Touch
+    const TOUCH_SENS = 0.0042;
     const tdown = e => {
       if (e.touches.length !== 1) return;
-      if (e.target && e.target.closest && e.target.closest('.wr3d-side-panel, .wr3d-floating-controls, .wr3d-bottom-left-controls, .wr3d-playback-bar, input, button, textarea, form, a')) return;
+      if (e.target && e.target.closest && e.target.closest('.wr3d-side-panel, .wr3d-floating-controls, .wr3d-bottom-left-controls, .wr3d-playback-bar, .wr3d-add-video-popup, input, button, textarea, form, a')) return;
       const lk = look.current;
-      lk.dragging = true; lk.prevX = e.touches[0].clientX; lk.prevY = e.touches[0].clientY;
+      lk.dragging = true; 
+      lk.prevX = e.touches[0].clientX; 
+      lk.prevY = e.touches[0].clientY;
     };
     const tmove = e => {
       const lk = look.current;
       if (!lk.dragging || e.touches.length !== 1) return;
+      if (e.cancelable) e.preventDefault();
       const dx = e.touches[0].clientX - lk.prevX, dy = e.touches[0].clientY - lk.prevY;
-      lk.prevX = e.touches[0].clientX; lk.prevY = e.touches[0].clientY;
-      lk.targetYaw   = Math.max(-YAW_RANGE, Math.min(YAW_RANGE,  lk.targetYaw   - dx * SENSITIVITY));
-      lk.targetPitch = Math.max(PITCH_MIN,  Math.min(PITCH_MAX,   lk.targetPitch - dy * SENSITIVITY));
+      lk.prevX = e.touches[0].clientX; 
+      lk.prevY = e.touches[0].clientY;
+      lk.targetYaw   = Math.max(-YAW_RANGE, Math.min(YAW_RANGE,  lk.targetYaw   - dx * TOUCH_SENS));
+      lk.targetPitch = Math.max(PITCH_MIN,  Math.min(PITCH_MAX,   lk.targetPitch - dy * TOUCH_SENS));
     };
     const tend = () => { look.current.dragging = false; };
 
@@ -610,10 +618,12 @@ export default function WatchRoom3D({
     cssRenderer.domElement.addEventListener('mousedown', down);
     cssRenderer.domElement.addEventListener('contextmenu', ctx);
     cssRenderer.domElement.addEventListener('touchstart', tdown, { passive: true });
+    el.addEventListener('touchstart', tdown, { passive: true });
     window.addEventListener('mousemove', move);
     window.addEventListener('mouseup',   up);
-    window.addEventListener('touchmove', tmove, { passive: true });
+    window.addEventListener('touchmove', tmove, { passive: false });
     window.addEventListener('touchend',  tend);
+    window.addEventListener('touchcancel', tend);
 
     return () => {
       live = false;
@@ -623,12 +633,14 @@ export default function WatchRoom3D({
       window.removeEventListener('mouseup',   up);
       window.removeEventListener('touchmove', tmove);
       window.removeEventListener('touchend',  tend);
+      window.removeEventListener('touchcancel', tend);
       renderer.domElement.removeEventListener('mousedown',   down);
       renderer.domElement.removeEventListener('contextmenu', ctx);
       renderer.domElement.removeEventListener('touchstart',  tdown);
       cssRenderer.domElement.removeEventListener('mousedown',   down);
       cssRenderer.domElement.removeEventListener('contextmenu', ctx);
       cssRenderer.domElement.removeEventListener('touchstart',  tdown);
+      el.removeEventListener('touchstart', tdown);
       scene.traverse(o => {
         if (o.isMesh) {
           o.geometry?.dispose();
@@ -1317,6 +1329,19 @@ export default function WatchRoom3D({
       {/* Top Floating Controls */}
       {!loading && (
         <div className="wr3d-floating-controls">
+          {/* Mobile Chat Toggle Button */}
+          <button 
+            className={`wr3d-float-btn wr3d-float-btn--mobile-chat ${mobileChatOpen ? 'wr3d-float-btn--active' : ''}`}
+            onClick={() => setMobileChatOpen(v => !v)}
+            title={mobileChatOpen ? "Close Chat" : "Open Chat"}
+            aria-label="Toggle Chat"
+          >
+            <FontAwesomeIcon icon={faCommentDots} />
+            {messages.length > 0 && !mobileChatOpen && (
+              <span className="wr3d-chat-badge">{messages.length > 99 ? '99+' : messages.length}</span>
+            )}
+          </button>
+
           <button 
             className="wr3d-float-btn" 
             onClick={copyLink} 
@@ -1361,7 +1386,20 @@ export default function WatchRoom3D({
 
       {/* Right Side Panel: Modern Participants & Chat */}
       {!loading && (
-        <div className="wr3d-side-panel" onClick={e => e.stopPropagation()}>
+        <div className={`wr3d-side-panel ${mobileChatOpen ? 'wr3d-side-panel--open' : ''}`} onClick={e => e.stopPropagation()}>
+
+          {/* Mobile close bar */}
+          <div className="wr3d-mobile-panel-header">
+            <span className="wr3d-mobile-panel-title">Room Chat & Members</span>
+            <button 
+              type="button" 
+              className="wr3d-mobile-close-btn" 
+              onClick={() => setMobileChatOpen(false)}
+              aria-label="Close Chat"
+            >
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+          </div>
 
           {/* PARTICIPANTS SECTION */}
           <div className="wr3d-participants-area">
