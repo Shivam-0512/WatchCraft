@@ -60,26 +60,28 @@
 ## 🏛️ Architecture & Tech Stack
 
 ```mermaid
-graph LR
-    subgraph Client Application [React 18 + Vite]
-        2D[2D Pixel Room]
-        OS[WatchCraft OS Desktop]
-        3D[Three.js 3D Room]
-        YT[CSS3D YouTube Player]
+flowchart LR
+    subgraph Client["Client Application (React 18 + Vite)"]
+        direction TB
+        R2D["2D Pixel Room"]
+        OS["WatchCraft OS Desktop"]
+        R3D["Three.js 3D Room"]
+        YT["CSS3D YouTube Player"]
     end
 
-    subgraph Backend Service [Node.js + Express]
-        WS[Socket.IO Server]
-        OOP[OOP Registry & MessageHandler]
-        API[REST Endpoints]
+    subgraph Backend["Backend Service (Node.js + Express)"]
+        direction TB
+        WS["Socket.IO Server"]
+        OOP["OOP Registry & MessageHandler"]
+        API["REST Endpoints"]
     end
 
-    subgraph Persistence
-        DB[(MongoDB Atlas / In-Memory)]
+    subgraph Storage["Persistence Tier"]
+        DB[("MongoDB Atlas / In-Memory")]
     end
 
-    Client Application <==>|WebSocket / HTTP| Backend Service
-    Backend Service <==>|Mongoose / In-Memory Fallback| Persistence
+    Client <-->|"WebSocket / HTTP"| Backend
+    Backend <-->|"Mongoose / In-Memory Fallback"| Storage
 ```
 
 ### Technology Breakdown
